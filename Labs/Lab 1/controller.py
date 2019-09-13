@@ -4,10 +4,10 @@ from datetime import datetime
 from asteroid import Asteroid
 
 class Controller:
-    """this class contains a method to create asteroids to a list"""
+    """this class contains a method to create asteroids to a list."""
     def __init__(self):
         """
-        creates 100 asteroids and assigns a random position and velocity
+        creates 100 asteroids and assigns a random position and velocity.
         """
         self.asteroids_list = [None] * 100
 
@@ -20,7 +20,7 @@ class Controller:
 
     def simulate(self, seconds):
         """
-        This function will simulate asteroids moving for a certain amount of seconds specified
+        This function will simulate asteroids moving for a certain amount of seconds specified.
         :param seconds:
         :return:
         """

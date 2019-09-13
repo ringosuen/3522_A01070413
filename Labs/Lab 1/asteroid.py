@@ -3,13 +3,13 @@ from datetime import datetime
 
 
 class Asteroid:
-    """This class embodies the basic functions and attributes of an Asteroid"""
+    """This class embodies the basic functions and attributes of an Asteroid."""
 
     id = 1
 
     def __init__(self, radius, position, velocity, timestamp):
         """
-        Initialize radius, position, velocity, timestamp
+        Initialize radius, position, velocity, timestamp.
         :param radius: an int
         :param position: an int
         :param velocity: an int
@@ -56,7 +56,7 @@ class Asteroid:
 
     def move(self):
         """
-        Modifies position using velocity by adding x,y,z coordinates to initial position
+        Modifies position using velocity by adding x,y,z coordinates to initial position.
         :return: new position with added velocity
         """
         current_pos = self.get_position()
