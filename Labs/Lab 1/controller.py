@@ -37,7 +37,7 @@ class Controller:
 
 def main():
     test = Controller()
-    test.simulate(12)
+    test.simulate(10)
 
 
 if __name__ == "__main__":
