@@ -6,6 +6,9 @@ from book import LibraryItemGenerator, Book, Dvd, Journal
 
 
 class Library:
+    """
+    Library class will display all items available from the catalog item list.
+    """
 
     @staticmethod
     def display_available_items(catalogue):
