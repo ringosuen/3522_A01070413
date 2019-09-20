@@ -7,9 +7,6 @@ from book import LibraryItemGenerator, Book, Dvd, Journal
 
 class Library:
 
-    def find_item(self):
-        Catalogue.search()
-
     @staticmethod
     def display_available_items(catalogue):
         if catalogue.item_list:
@@ -22,7 +19,7 @@ class Library:
 
 def main():
     """
-    Creates a book
+    Displays a menu and lets user add, remove, display, checkout, return and find items in a library catalog.
     """
     catalogue = Catalogue()
 
@@ -48,7 +45,7 @@ def main():
             user_input = int(input("enter call number: "))
             catalogue.remove_item(user_input)
         elif choice == 3:
-             catalogue.display_available_items()
+            catalogue.display_available_items()
         elif choice == 4:
             user_input = int(input("enter call number: "))
             catalogue.check_out(user_input)
