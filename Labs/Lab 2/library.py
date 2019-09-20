@@ -1,39 +1,21 @@
-from book import book
+from book import LibraryItemGenerator, Book, Dvd, Journal
+import abc
+import sys
+from catalogue import Catalogue
+from book import LibraryItemGenerator, Book, Dvd, Journal
+
+
 class Library:
-    def __init__(self):
-        self.book_list = []
 
-    def add_book(self, book):
-        self.book_list.append(book)
+    def find_item(self):
+        Catalogue.search()
 
-    def remove_book(self, call_number):
-        if call_number in self.book_list:
-            print("The book you requested has now been removed")
-            self.book_list.remove(call_number)
-
-    def find_books(self, title):
-        for book in self.book_list:
-            if book.title == title:
-                return book
-
-    def check_out(self, call_number):
-        if call_number in self.book_list:
-            print("The book you have requested has now been checked out")
-            self._num_copies -= 1
-        else:
-            print("The book you have requested is not currently available")
-
-    def return_book(self, call_number):
-        if call_number in self.book_list:
-            print("The book you have requested has now been checked out")
-            self._num_copies += 1
-            print("You have returned you book")
-
-    def display_availible_books(self):
-        if self.book_list:  # if list of books is not empty
+    @staticmethod
+    def display_available_items(catalogue):
+        if catalogue.item_list:
             print("The books we have made available in our library are:\n")
-            for book in self.book_list:
-                print(book)
+            for item in catalogue.item_list:
+                print(item)
         else:
             print("Sorry, we have no books available in the library at the moment")
 
@@ -42,7 +24,42 @@ def main():
     """
     Creates a book
     """
-    book1 = Library()
+    catalogue = Catalogue()
+
+    # book1 = Book("title1", 22323, "author", 4)
+    # dvd1 = Dvd("dvdt", 1111, "jurassic", 2, "sept 2", "japan")
+    # catalogue.add_item(book1)
+    # catalogue.add_item(dvd1)
+
+    while True:
+        print(""" ======LIBRARY MENU=======
+            1. Add Item
+            2. Remove item 
+            3. Display all items
+            4. Checkout item 
+            5. Return item 
+            6. Find item 
+            7. Exit
+            """)
+        choice = int(input("Enter Choice:"))
+        if choice == 1:
+            catalogue.add_item(catalogue)
+        elif choice == 2:
+            user_input = int(input("enter call number: "))
+            catalogue.remove_item(user_input)
+        elif choice == 3:
+             catalogue.display_available_items()
+        elif choice == 4:
+            user_input = int(input("enter call number: "))
+            catalogue.check_out(user_input)
+        elif choice == 5:
+            user_input = int(input("enter call number: "))
+            catalogue.return_item(user_input)
+        elif choice == 6:
+            user_input = input("enter title to search: ")
+            catalogue.search(user_input)
+        if choice == 7:
+            sys.exit()
 
 
 if __name__ == '__main__':
