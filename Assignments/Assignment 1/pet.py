@@ -96,6 +96,43 @@ class Pet(ABC):
     def speak(self):
         pass
 
+    def play(self):
+        # play_choice = random.randint(0, 2)
+        if self.happiness > 99:
+            print(f"{self.name} is already really happy!! It's happiness is at 100!")
+        else:
+            while True:
+                print("""  WHAT DO YOU WANT TO PLAY?\n
+                1. Play Fetch  
+                2. Pet your Pokemon 
+                3. Go walk your Pokemon
+                                """)
+                play_choice = int(input("Enter Choice:"))
+
+                if play_choice == 1:
+                    print(f"{self.name} played fetch with you! 🎾")
+                    self.happiness += 10
+                    if self.happiness > 99:
+                        self.happiness = 100
+                    print(f"Happiness increased to: {int(self.happiness)}")
+                    return self.happiness
+
+                elif play_choice == 2:
+                    print(f"You started petting {self.name}! 😊")
+                    self.happiness += 10
+                    if self.happiness > 99:
+                        self.happiness = 100
+                    print(f"Happiness increased to: {int(self.happiness)}")
+                    return self.happiness
+
+                elif play_choice == 3:
+                    print(f"{self.name} enjoyed the walk! 🏃🏃‍️")
+                    self.happiness += 10
+                    if self.happiness > 99:
+                        self.happiness = 100
+                    print(f"Happiness increased to: {int(self.happiness)}")
+                    return self.happiness
+
     def feed(self):
         while True:
             print("""  WHAT DO YOU WANT TO FEED?
@@ -111,6 +148,7 @@ class Pet(ABC):
                 break
             else:
                 print(f"{self.name}'S HUNGER LEVEL IS AT 0 AND NOT HUNGRY")
+                break
 
     def eat_potion(self):
         if self.health > 99:
@@ -124,36 +162,32 @@ class Pet(ABC):
 
         food_choice = random.randint(0, 2)
 
-        print(food_choice)
-
         if food_choice == self.favorite_food:
             if food_choice == 0:
-                print("Fed Berries")
+                print(f"Fed {self.name} Berries 🍒🍈🍒")
             elif food_choice == 1:
-                print("Fed Magikarp")
+                print(f"Fed {self.name} Magikarp 🐟🐟🐟")
             elif food_choice == 2:
-                print("Fed rare candy")
-            print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
-            self.hunger -= 2
+                print(f"Fed {self.name} Rare Candy 🍬🍭🍬")
+            print(f"Bonus: -25 hunger! That's {self.name}'s favorite food!")
+            self.hunger -= 15
             print("after sbtract")
             return self.hunger
         else:
             if food_choice == 0:
-                print(f"{self.name} has been fed berries!")
-                self.hunger -= 20
+                print(f"{self.name} has been fed berries! 🍒🍈🍒")
+                self.hunger -= 23
                 return self.hunger
 
             elif food_choice == 1:
-                print(f"{self.name} has been fed Magikarp!")
-                self.hunger -= 20
+                print(f"{self.name} has been fed Magikarp! 🐟🐟🐟")
+                self.hunger -= 23
                 return self.hunger
 
             elif food_choice == 2:
-                print(f"{self.name} has been fed rare candy!")
-                self.hunger -= 20
+                print(f"{self.name} has been fed rare candy! 🍬🍭🍬")
+                self.hunger -= 23
                 return self.hunger
-
-
 
             # print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
             # self.hunger -= 2
@@ -215,31 +249,37 @@ class Snorlax(Pet):
         super().__init__(name, health, happiness, hunger, favorite_food)
 
     def speak(self):
-        print("ZZZZ.... ZZZZ... ZZZZZ")
+        print("💤 ZZZZ.... ZZZZ... ZZZZZ 💤")
 
     def decrease_health(self):
         print(f"Health before: {int(self.health)}")
         print("Your Snorlax's Health Decreased")
-        # print((int(time.time()) - self.start_time))
-        self.health = self.health - ((int(time.time()) - self.start_time) / 50)
+        if self.hunger > 99:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 25)
+            print("Your Snorlax's hunger is at 100! Double health decrease!")
+        else:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 50)
         if self.health < 1:
             self.health = 0
-
-        print(f"health after: {int(self.health)}")
+        print(f"Health after: {int(self.health)}")
 
     def decrease_happiness(self):
         print("DECREASE SNORLAX HAPPINESS")
-        print(self.happiness)
-        print((int(time.time()) - self.start_time))
-        self.happiness = self.happiness - ((int(time.time()) - self.start_time))
+        print(f"Happiness before: {int(self.happiness)}")
+        if self.happiness >= 99:
+            self.happiness = 100
+        self.happiness = self.happiness - ((int(time.time()) - self.start_time) / 25)
         if self.happiness < 1:
             self.happiness = 0
-        print(int(self.happiness))
+        print(f"Happiness after: {int(self.happiness)}")
 
     def increase_hunger(self):
-        self.hunger = self.hunger + int(time.time()) - self.start_time
+        self.hunger += ((int(time.time()) - self.start_time) / 2)
         if self.hunger >= 99:
             self.hunger = 100
+        if self.hunger < 1:
+            self.hunger = 0
+        print(f"New Hunger: {self.hunger}")
 
 
 class Charizard(Pet):
@@ -251,32 +291,36 @@ class Charizard(Pet):
         super().__init__(name, health, happiness, hunger, favorite_food)
 
     def speak(self):
-        print("CHAR CHAR CHAAAAR CHAR CHAR ")
+        print("CHAR CHAR CHAAAAR CHAR CHAR 🔥")
 
     def decrease_health(self):
         print(f"Health before: {int(self.health)}")
         print("HEALTH CHAR DECREASE")
-        # print((int(time.time()) - self.start_time))
-        self.health = self.health - ((int(time.time()) - self.start_time) / 30)
+        if self.hunger > 99:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 15)
+            print("Your Charizard's hunger is at 100! Double health decrease!")
+        else:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 30)
         if self.health < 1:
             self.health = 0
-        print(f"health after: {int(self.health)}")
+        print(f"Health after: {int(self.health)}")
 
     def decrease_happiness(self):
         print("DECREASE CHAR HAPPINESS")
         print(self.happiness)
         print((int(time.time()) - self.start_time))
-        self.happiness = self.happiness - ((int(time.time()) - self.start_time))
+        self.happiness = self.happiness - ((int(time.time()) - self.start_time) / 5)
         if self.happiness < 1:
             self.happiness = 0
         print(int(self.happiness))
 
     def increase_hunger(self):
-        self.hunger = self.hunger + int(time.time()) - self.start_time
+        self.hunger += ((int(time.time()) - self.start_time) / 10)
         if self.hunger >= 99:
             self.hunger = 100
         if self.hunger < 1:
             self.hunger = 0
+        print(f"New Hunger: {self.hunger}")
 
 
 class Dragonite(Pet):
@@ -292,8 +336,11 @@ class Dragonite(Pet):
 
     def decrease_health(self):
         print(f"Health before: {int(self.health)}")
-        # print((int(time.time()) - self.start_time))
-        self.health = self.health - ((int(time.time()) - self.start_time) / 10)
+        if self.hunger > 99:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 20)
+            print("Your Charizard's hunger is at 100! Double health decrease!")
+        else:
+            self.health = self.health - ((int(time.time()) - self.start_time) / 40)
         if self.health < 1:
             self.health = 0
         print(f"health after: {int(self.health)}")
@@ -302,12 +349,15 @@ class Dragonite(Pet):
         print("DECREASE DRAGONITE HAPPINESS")
         print(self.happiness)
         print((int(time.time()) - self.start_time))
-        self.happiness = self.happiness - ((int(time.time()) - self.start_time))
+        self.happiness = self.happiness - ((int(time.time()) - self.start_time) / 20)
         if self.happiness < 1:
             self.happiness = 0
         print(int(self.happiness))
 
     def increase_hunger(self):
-        self.hunger = self.hunger + int(time.time()) - self.start_time
+        self.hunger = self.hunger + ((int(time.time()) - self.start_time) / 5)
         if self.hunger >= 99:
             self.hunger = 100
+        if self.hunger < 1:
+            self.hunger = 0
+        print(f"New Hunger: {self.hunger}")
