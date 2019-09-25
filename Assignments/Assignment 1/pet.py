@@ -41,7 +41,7 @@ class Pet(ABC):
         print(f"favorite food is: {self.favorite_food}")
         return self.favorite_food
 
-    def set_favorite_food(self, food=""):
+    def set_favorite_food(self, food):
         self.favorite_food = food
 
     # if you have divide by 5, then it increases by 1 every 5s, if you divide by 10, then increase by 1 every 10s.
@@ -69,7 +69,7 @@ class Pet(ABC):
                   f"Hunger Level: {self.hunger}\n")
         else:
             print(f"---- Tamagotchi Type: {self.get_name()} ----\n"
-                  f"Health Level: {1+ int(self.health)}\n"
+                  f"Health Level: {1 + int(self.health)}\n"
                   f"Happiness Level: {int(self.happiness)}\n"
                   f"Hunger Level: {int(self.hunger)}\n")
 
@@ -103,12 +103,14 @@ class Pet(ABC):
                     2. Feed Medicine
                 """)
             choice = int(input("Enter Choice:"))
-            if choice == 1:
+            if choice == 1 and self.hunger > 1:
                 Pet.eat_food(self)
                 break
             elif choice == 2:
                 Pet.eat_potion(self)
                 break
+            else:
+                print(f"{self.name}'S HUNGER LEVEL IS AT 0 AND NOT HUNGRY")
 
     def eat_potion(self):
         if self.health > 99:
@@ -120,10 +122,21 @@ class Pet(ABC):
 
     def eat_food(self):
 
-        food_choice = random.randint(0, 3)
+        food_choice = random.randint(0, 2)
 
-        if self.hunger < 1:
-            print(f"{self.name} is NOT HUNGRY")
+        print(food_choice)
+
+        if food_choice == self.favorite_food:
+            if food_choice == 0:
+                print("Fed Berries")
+            elif food_choice == 1:
+                print("Fed Magikarp")
+            elif food_choice == 2:
+                print("Fed rare candy")
+            print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
+            self.hunger -= 2
+            print("after sbtract")
+            return self.hunger
         else:
             if food_choice == 0:
                 print(f"{self.name} has been fed berries!")
@@ -140,17 +153,42 @@ class Pet(ABC):
                 self.hunger -= 20
                 return self.hunger
 
+
+
+            # print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
+            # self.hunger -= 2
+            # return self.hunger
+
+        # if self.hunger < 1:
+        #     print(f"{self.name} is NOT HUNGRY")
+        # else:
+        #     if food_choice == 0:
+        #         print(f"{self.name} has been fed berries!")
+        #         self.hunger -= 20
+        #         return self.hunger
+        #
+        #     elif food_choice == 1:
+        #         print(f"{self.name} has been fed Magikarp!")
+        #         self.hunger -= 20
+        #         return self.hunger
+        #
+        #     elif food_choice == 2:
+        #         print(f"{self.name} has been fed rare candy!")
+        #         self.hunger -= 20
+        #         return self.hunger
+
         # elif food_choice == 3:
         #     print(f"{self.name} has been fed a Potion!")
         #     self.health += 5
         #     return self.hunger
-        if self.hunger < 1:
-            pass
-        else:
-            if food_choice == Pet.get_favorite_food(self):
-                self.hunger -= 2
-                print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
-                return self.hunger
+        # if self.hunger < 1:
+        #     pass
+        # else:
+
+        # if self.hunger > 1 or food_choice == Pet.get_favorite_food(self):
+        #     self.hunger -= 2
+        #     print(f"Bonus: -5 hunger! That's {self.name}'s favorite food!")
+        #     return self.hunger
 
         # if self.health == 0 or self.health < 90:
         #     self.health += 20
