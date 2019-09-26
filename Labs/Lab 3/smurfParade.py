@@ -1,9 +1,13 @@
-""""""
+"""
+This module houses all the necessary code for a creating a smurf list and
+it's related functions.
+"""
 
 
 class Smurf:
     """
-    class docs
+    This class contains all the implementation methods to manipulate
+    a list and retrieve information from the created list.
     """
 
     def __init__(self, smurf_members):
