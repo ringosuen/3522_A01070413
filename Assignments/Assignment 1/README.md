@@ -5,7 +5,9 @@ A simple Tamagotchi Simulator that allows a user to hatch a new Pokemon and inte
 
 # How to use 
 Once you press run, the game will automatically start hatching an egg for you. 
+
 You will see what's hatched and a menu will appear allowing you to select an action. 
+
 Once the status is checked, the time elapsed is used to update a Pokemon's stats accordingly. 
 
 When health hits 0, the game automatically hatch a new egg for you. 
