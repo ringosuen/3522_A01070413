@@ -6,8 +6,18 @@ start_time = int(time.time())
 
 
 class Game:
+    """
+    Represents a UI for the game.
+    Allows the user to interact with the Pokemon through
+    menu selection.
+    """
+
     @staticmethod
     def hatch_new_egg():
+        """
+        Hatches a new Pokemon at random and displays a special message.
+        :return: new_egg
+        """
         random_choice = random.randint(0, 2)
 
         if random_choice == 0:
@@ -25,14 +35,21 @@ class Game:
 
     @staticmethod
     def reset_stats(egg):
+        """
+        Resets the stats when a Pokemon dies and the game hatches a new egg.
+        """
         egg.set_health(100)
         egg.set_happiness(100)
         egg.set_hunger(0)
 
     @staticmethod
     def status(egg):
-        # time_elapsed = (int(time.time()) - start_time)
-        # print(f"Time elapsed: {time_elapsed} seconds")
+        """
+        This is responsible for allowing the player
+        to check the status of their Pokemon. It checks the time elapsed since
+        the last time the player has checked and updates the stats accordingly.
+        """
+
         egg.speak()
         egg.decrease_health()
         egg.decrease_happiness()
@@ -41,6 +58,10 @@ class Game:
 
     @staticmethod
     def display_menu():
+        """
+        A guide for the user to know what's going on and
+        allows user to interact with the Pokemon.
+        """
 
         print("\nLets hatch a new Pokemon! Let's give it a couple seconds to hatch\n ... \n ... \n")
         time.sleep(2)
@@ -74,6 +95,9 @@ class Game:
 
 
 def main():
+    """
+    The main method that calls the display menu method.
+    """
     Game.display_menu()
 
 
