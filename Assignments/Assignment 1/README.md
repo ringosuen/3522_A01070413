@@ -18,7 +18,7 @@ You can keep feeding a Pokemon poitions until it's health is full.
 
 You can keep playing with a Pokemon until it's happiness is full. 
 
-When the health hits 0, the game automatically hatch a new egg for you. 
+When the health hits 0, the game will automatically hatch a new egg for you. 
 
 ## Each Pokemon has different personalities:
 
