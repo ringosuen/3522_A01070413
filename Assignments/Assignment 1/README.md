@@ -14,7 +14,7 @@ Food is fed at random. If the random food fed is the Pokemon's favorite food, th
 
 You can keep feeding a Pokemon food until it's no longer hungry. 
 
-You can keep feeding a Pokemon poitions until it's health is full. 
+You can keep feeding a Pokemon potions until it's health is full. 
 
 You can keep playing with a Pokemon until it's happiness is full. 
 
