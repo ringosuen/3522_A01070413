@@ -10,6 +10,8 @@ You will see what's hatched and a menu will appear allowing you to select an act
 
 Once the status is checked, the time elapsed is used to update a Pokemon's stats accordingly. 
 
+Food is fed at random. If the random food fed is the Pokemon's favorite food, then a bonus is dedeucted from the hunger status. 
+
 You can keep feeding a Pokemon food until it's no longer hungry. 
 
 You can keep feeding a Pokemon poitions until it's health is full. 
