@@ -19,7 +19,7 @@ class Game:
             new_egg = Charizard("Charizard", 100, 100, 0, 2)
             return new_egg
         elif random_choice == 2:
-            print("💨☁️🌪🌤 🐲 DRA DRAGON DRAGONITE \n")
+            print("💨☁️🌪🌤 🐲 DRA DRAGOOOOON DRAGONITE \n")
             new_egg = Dragonite("Dragonite", 100, 100, 0, 1)
             return new_egg
 
@@ -38,7 +38,6 @@ class Game:
         egg.decrease_happiness()
         egg.increase_hunger()
         Pet.display_stats(egg)
-        # egg.get_favorite_food()
 
     @staticmethod
     def display_menu():
