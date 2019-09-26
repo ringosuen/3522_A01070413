@@ -10,7 +10,15 @@ You will see what's hatched and a menu will appear allowing you to select an act
 
 Once the status is checked, the time elapsed is used to update a Pokemon's stats accordingly. 
 
-When health hits 0, the game automatically hatch a new egg for you. 
+You can keep feeding a Pokemon food until it's no longer hungry. 
+
+You can keep feeding a Pokekmon poitions until health is full. 
+
+You can keep playing with a Pokemon until it's happiness is full. 
+
+
+
+When the health hits 0, the game automatically hatch a new egg for you. 
 
 ## Each Pokemon has different personalities:
 
