@@ -34,8 +34,12 @@ class FileHandler:
                         data = my_text_file.read()
                         print(f"Printing data after seeking to "
                               f"the beginning:\n {data}")
+                else:
+                    raise InvalidFileTypeError("InvalidFileType")
             else:
                 raise FileNotFoundError("Can't find file.")
+        except InvalidFileTypeError as e:
+            print("Invalid File Type")
         except FileNotFoundError as e:
             print(f"File not Found {e}")
         except TypeError as e:

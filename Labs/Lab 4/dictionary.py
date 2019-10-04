@@ -8,7 +8,7 @@ class Dictionary:
         self.dictionary = {}
 
     def query_definition(self, word):
-
+        word = word.lower()
         if word not in self.dictionary:
             print(difflib.get_close_matches(word, self.dictionary))
         else:
@@ -26,17 +26,17 @@ class Dictionary:
 
 
 def main():
-    dict = Dictionary()
-    dict.load_dictionary("data.json")
+    diction = Dictionary()
+    diction.load_dictionary("data.json")
 
     while True:
         choice = (input("Enter A Word To Search:").lower())
         if choice == "exitprogram":
             exit()
         else:
-            sentence = dict.query_definition(choice)
+            sentence = diction.query_definition(choice)
             if sentence is not None:
-                print(dict.query_definition(choice))
+                print(diction.query_definition(choice))
                 print("Writing to saved_words.txt")
                 FileHandler.write_lines("saved_words.txt", "\n")
                 FileHandler.write_lines("saved_words.txt", choice)
