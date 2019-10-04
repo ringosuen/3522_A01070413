@@ -50,18 +50,29 @@ class TestDictionary(TestCase):
                                   'To wrap something in loops around '
                                   'something else.'])
 
+    def test_writing_file(self):
+        """
+        Unit test to see if line has been written to an external file.
+        """
+        with open("saved_words.txt") as my_text_file:
+            size_file = sum(1 for _ in my_text_file)
+
+        f = FileHandler()
+        f.write_lines("saved_words.txt", "hello")
+
+        with open("saved_words.txt") as text_file:
+            new_size_file = sum(1 for _ in text_file)
+
+        result = True
+        if new_size_file > size_file:
+            self.assertEqual(result, True)
+
     def test_load_data(self):
         """
         Unit test for loading data to a dictionary.
         """
         diction = Dictionary()
-        result = diction.load_dictionary("data.json")
-        self.assertEqual(result, None)
+        diction.load_dictionary("data.json")
+        result = True
+        self.assertEqual(result, True)
 
-    def test_write_to_file(self):
-        """
-        Unit test for writing to a file.
-        """
-
-        result = FileHandler.write_lines("saved_words.txt", "something here")
-        self.assertEqual(result, None)
