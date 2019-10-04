@@ -1,4 +1,5 @@
-import json
+import difflib
+
 from file_handler import FileHandler, FileExtensions
 
 
@@ -7,31 +8,42 @@ class Dictionary:
         self.dictionary = {}
 
     def query_definition(self, word):
-        # if word in self.dictionary:
-        return f"{word} : {self.dictionary.get(word)}"
 
-        #use alt word = word and make upper and lower cases
+        if word not in self.dictionary:
+            print(difflib.get_close_matches(word, self.dictionary))
+        else:
+            return self.dictionary.get(word)
 
     def load_dictionary(self, filepath):
-        data = FileHandler.load_data(filepath, FileExtensions.JSON)
-        # filepath = open(filepath)
-        # data = json.load(filepath)
-        #
-        # filepath.close()
-        for (key, value) in data.items():
-            self.dictionary.update({key: value})
+        try:
+            data = FileHandler.load_data(filepath, FileExtensions.JSON)
+
+            for (key, value) in data.items():
+                self.dictionary.update({key: value})
+        except AttributeError as e:
+            print(f"Attribute Error {e}")
+            exit()
 
 
 def main():
-    # read_sample_txt_with()
-    # FileHandler.read_json()
-    # print(dict.dictionary)
-    # dict.load_dictionary("data.json")
-
     dict = Dictionary()
     dict.load_dictionary("data.json")
 
-    print(dict.query_definition("interior"))
+    while True:
+        choice = (input("Enter A Word To Search:").lower())
+        if choice == "exitprogram":
+            exit()
+        else:
+            sentence = dict.query_definition(choice)
+            if sentence is not None:
+                print(dict.query_definition(choice))
+                print("Writing to saved_words.txt")
+                FileHandler.write_lines("saved_words.txt", "\n")
+                FileHandler.write_lines("saved_words.txt", choice)
+                FileHandler.write_lines("saved_words.txt", " : ")
+                FileHandler.write_lines("saved_words.txt", sentence)
+            else:
+                print("Word does not exist")
 
 
 if __name__ == '__main__':
