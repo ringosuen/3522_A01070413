@@ -1,3 +1,7 @@
+"""
+This module demonstrates the use of the Observer Design Pattern by
+simulating an Auction between bidders.
+"""
 import random
 
 
@@ -16,9 +20,12 @@ class Auction:
 
 
 class Auctioneer:
-    '''
-    this is the core!!!!
-    '''
+    """
+    The Auctioneer is the core that represents an auction of bidders.
+    It is observed by other bidders otherwise known as observers. If the bid
+    probability allows the bidder to keep bidding, then all the bidders would
+    be notified.
+    """
 
     def __init__(self, highest_current_bid):
         self.bidder = []
@@ -28,7 +35,7 @@ class Auctioneer:
     def execute_callbacks(self):
         """
         Executes all the callbacks in the list of observer callbacks.
-        Passes the current light state as the argument to these
+        Passes the current bidder state as the argument to these
         callbacks.
         """
         for observer in self.bidder:
@@ -55,23 +62,23 @@ class Bidders:
         This is the protocol that allows an object to be called and
         passed around as functions. this method can accept any number
         of parameters.
-        :param message: a string
+        :param message: an object
         """
         if self is auctioneer.highest_bidder:
+            print(f"\nThe highest bidder is {self.name}"
+                  f" with ${self.highest_bid}")
             return
-        if auctioneer.highest_current_bid * self.bid_increase_perc > self.budget:
+        if auctioneer.highest_current_bid * self.bid_increase_perc \
+                > self.budget:
             return
-        if self.bid_probability > 0.5:
-            return
+        # if self.bid_probability > 0.2:
+        #     return
         print(
             f"{self.name} bidded: ${auctioneer.highest_current_bid * self.bid_increase_perc} in response to"
             f" {auctioneer.highest_bidder}'s ${auctioneer.highest_current_bid}")
         auctioneer.highest_current_bid = auctioneer.highest_current_bid * self.bid_increase_perc
         auctioneer.highest_bidder = self
         self.highest_bid = auctioneer.highest_current_bid
-
-    def react_to_price(self, traffic_light):
-        pass
 
 
 def main():
@@ -103,9 +110,9 @@ def main():
         temp_max = check_after
         check_after = a1.highest_current_bid
 
-    print(f"/nHighest Bidder: ")
+    # print(f"/nHighest Bidder: ")
 
-    print("/nHighest Bids Per bidder: ")
+    print("\nHighest Bids Per bidder: ")
     for bidder in a1.bidder:
         print(f"{bidder.name}, {bidder.highest_bid}")
 
