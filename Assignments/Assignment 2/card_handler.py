@@ -1,3 +1,8 @@
+""" This module houses the card collection."""
+from cards import CreditCard, RewardsCard, IdCard, BusinessCard, CardGenerator
+import difflib
+
+
 class CardManager:
     """
     A general card manager responsible for taking care of the collection of
@@ -19,27 +24,112 @@ class CardManager:
         a card depending on the type.
         :return:
         """
-        pass
+        new_item = CardGenerator.generate_item()
+        self.card_list.append(new_item)
+        print("Item added successfully! Item details:")
+        print(new_item)
 
-    def remove_card(self):
+    def remove_card(self, card_name):
         """
-        Removes a card from the database depending o
-        :return:
+        Remove an existing card from the collection
+        :param card_name: a string
+        :precondition card_name: a unique identifier
         """
+        found_item = self._retrieve_card_by_name(card_name)
+        if found_item:
+            self.card_list.remove(found_item)
+            print(f"Successfully removed {found_item.get_name()} with "
+                  f"call number: {card_name}")
+        else:
+            print(f"Item with card name: {card_name} not found.")
+            print("Be more specific!")
 
-    def search_card(self):
-        #FIGURE OUT FIND ITEMS BASED ON TITLE? CONTAINS TITLE?
+    def search_card(self, name):
         """
         Searches a card from the collection.
         :return: the searched card
         """
+        word = name.title()
+        for item in self.card_list:
+            if word == item.get_name():
+                print(f"Item found: {item}")
+                return item
+        else:
+            print("Can't find the item, be more specific!")
 
     def display_available_items(self):
-        #NEED TO FIGURE OUT HOW TO DISPLAY BY TYPE!!! THIS WILL JUST DISPLAY EACH CARD IN A LIST
         """
         Display all the cards in the collection.
         """
-        print("Card Collection")
+        print("Card Collection\n")
+        print("Displayed by card type: ")
         print("--------------", end="\n\n")
-        for card_item in self.card_list:
+
+        sorted_list = sorted(self.card_list, key=lambda card: card.value)
+
+        for card_item in sorted_list:
             print(card_item)
+
+    def _retrieve_card_by_name(self, card_name):
+        """
+        A private method that encapsulates the retrieval of a card with
+        the given name from the card collection.
+        :param card_name: a string
+        :return: card object if found, None otherwise
+        """
+        found_item = None
+        for card_item in self.card_list:
+            if card_item.card_name == card_name:
+                found_item = card_item
+                break
+        return found_item
+
+    def display_menu(self):
+        user_input = None
+        while True:
+            print("\nWelcome to the card manager!")
+            print("------------------------")
+            print("1. Add a card")
+            print("2. Find a card")
+            print("3. Remove a card")
+            print("4. Display Entire Collection of cards")
+            print("5. End")
+            user_input = int(input("Enter you choice (1-5): "))
+
+            if user_input == 1:
+                self.add_card()
+            elif user_input == 2:
+                # input_title = input("Enter the title of the item:")
+                # found_titles = self.search_card(input_title)
+                # print("We found the following:")
+                # if len(found_titles) > 0:
+                #     for title in found_titles:
+                #         print(title)
+                # else:
+                #     print("Sorry! We found nothing with that title")
+                user_input = input("enter title to search: ").title()
+                self.search_card(user_input)
+            elif user_input == 3:
+                card_name = input("Enter the name of the card"
+                                  " that you gave").title()
+                self.remove_card(card_name)
+
+            elif user_input == 4:
+                self.display_available_items()
+
+            elif user_input == 5:
+                break
+            else:
+                print("Could not process input. ")
+            #
+            # user_input = input("Would you like to do anything else? "
+            #                    "Enter C to continue and B to go back.")
+
+
+def main():
+    test = CardManager()
+    test.display_menu()
+
+
+if __name__ == '__main__':
+    main()
