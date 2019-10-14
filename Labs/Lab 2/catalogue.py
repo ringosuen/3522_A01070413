@@ -66,8 +66,10 @@ class Catalogue:
         """
         for item in self.item_list:
             if title == item.get_title() and item.check_availability():
-                print(f"Item found: {title}")
+                print(f"Item found: {item}")
                 return item
+            else:
+                print("can't find shit")
 
     def check_out(self, call_number):
         """
