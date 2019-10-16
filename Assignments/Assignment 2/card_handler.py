@@ -98,7 +98,6 @@ class CardManager:
         """
         Displays a menu for a user to use.
         """
-        user_input = None
         while True:
             print("\nWelcome to the card manager!")
             print("------------------------")
@@ -108,7 +107,6 @@ class CardManager:
             print("4. Display Entire Collection of cards")
             print("5. Back up your data!")
             print("6. End program")
-
             try:
                 user_input = int(input("Enter you choice (1-5): "))
 
