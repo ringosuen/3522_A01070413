@@ -1,6 +1,9 @@
 """ This module houses the card collection."""
+from datetime import date
+
 from cards import CreditCard, RewardsCard, IdCard, BusinessCard, CardGenerator
 import difflib
+import time
 
 
 class CardManager:
@@ -84,6 +87,11 @@ class CardManager:
                 break
         return found_item
 
+    def backup(self, path):
+        with open(path, 'w') as filehandle:
+            for list_item in self.card_list:
+                filehandle.write('%s\n' % list_item)
+
     def display_menu(self):
         user_input = None
         while True:
@@ -93,37 +101,44 @@ class CardManager:
             print("2. Find a card")
             print("3. Remove a card")
             print("4. Display Entire Collection of cards")
-            print("5. End")
-            user_input = int(input("Enter you choice (1-5): "))
+            print("5. Back up your data!")
+            print("6. End program")
 
-            if user_input == 1:
-                self.add_card()
-            elif user_input == 2:
-                # input_title = input("Enter the title of the item:")
-                # found_titles = self.search_card(input_title)
-                # print("We found the following:")
-                # if len(found_titles) > 0:
-                #     for title in found_titles:
-                #         print(title)
-                # else:
-                #     print("Sorry! We found nothing with that title")
-                user_input = input("enter title to search: ").title()
-                self.search_card(user_input)
-            elif user_input == 3:
-                card_name = input("Enter the name of the card"
-                                  " that you gave").title()
-                self.remove_card(card_name)
+            try:
+                user_input = int(input("Enter you choice (1-5): "))
 
-            elif user_input == 4:
-                self.display_available_items()
-
-            elif user_input == 5:
-                break
-            else:
-                print("Could not process input. ")
-            #
-            # user_input = input("Would you like to do anything else? "
-            #                    "Enter C to continue and B to go back.")
+                if user_input == 1:
+                    self.add_card()
+                elif user_input == 2:
+                    # input_title = input("Enter the title of the item:")
+                    # found_titles = self.search_card(input_title)
+                    # print("We found the following:")
+                    # if len(found_titles) > 0:
+                    #     for title in found_titles:
+                    #         print(title)
+                    # else:
+                    #     print("Sorry! We found nothing with that title")
+                    user_input = input("enter title to search: ").title()
+                    self.search_card(user_input)
+                elif user_input == 3:
+                    card_name = input("Enter the name of the card"
+                                      " that you gave").title()
+                    self.remove_card(card_name)
+                elif user_input == 4:
+                    self.display_available_items()
+                elif user_input == 5:
+                    print("\nBacking up your data to an external file!")
+                    print("It's on the cloud now!")
+                    file_name = time.strftime("CardManager_Export_%Y%m%d_%H%M.txt")
+                    self.backup(file_name)
+                elif user_input == 6:
+                    break
+                else:
+                    print("Could not process input. Enter 1-6. ")
+            except ValueError:
+                print("Enter a number please, not a letter.")
+            except TypeError:
+                print("Type Error!")
 
 
 def main():
