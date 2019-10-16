@@ -1,8 +1,6 @@
 """ This module houses the card collection."""
-from datetime import date
 
-from cards import CreditCard, RewardsCard, IdCard, BusinessCard, CardGenerator
-import difflib
+from cards import CardGenerator
 import time
 
 
@@ -12,7 +10,7 @@ class CardManager:
     available cards. It has methods to add, search, remove and display the
     collection of different cards in the program. Also has the ability to
     export the collection of added cards to an external backup file named
-    MyAppName_Export_DDMMYY_HHMM.txt
+    CardManager_Export_DDMMYY_HHMM.txt
     """
 
     def __init__(self):
@@ -88,11 +86,18 @@ class CardManager:
         return found_item
 
     def backup(self, path):
+        """
+        Backsup the list to an external file with a specified name.
+        :param path: a string
+        """
         with open(path, 'w') as filehandle:
             for list_item in self.card_list:
                 filehandle.write('%s\n' % list_item)
 
     def display_menu(self):
+        """
+        Displays a menu for a user to use.
+        """
         user_input = None
         while True:
             print("\nWelcome to the card manager!")
@@ -110,14 +115,6 @@ class CardManager:
                 if user_input == 1:
                     self.add_card()
                 elif user_input == 2:
-                    # input_title = input("Enter the title of the item:")
-                    # found_titles = self.search_card(input_title)
-                    # print("We found the following:")
-                    # if len(found_titles) > 0:
-                    #     for title in found_titles:
-                    #         print(title)
-                    # else:
-                    #     print("Sorry! We found nothing with that title")
                     user_input = input("enter title to search: ").title()
                     self.search_card(user_input)
                 elif user_input == 3:
@@ -129,7 +126,8 @@ class CardManager:
                 elif user_input == 5:
                     print("\nBacking up your data to an external file!")
                     print("It's on the cloud now!")
-                    file_name = time.strftime("CardManager_Export_%Y%m%d_%H%M.txt")
+                    file_name = time.strftime("CardManager_"
+                                              "Export_%Y%m%d_%H%M.txt")
                     self.backup(file_name)
                 elif user_input == 6:
                     break
@@ -142,6 +140,9 @@ class CardManager:
 
 
 def main():
+    """
+    Creates a CardManager object and displays the menu.
+    """
     test = CardManager()
     test.display_menu()
 

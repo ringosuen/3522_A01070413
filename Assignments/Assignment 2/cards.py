@@ -171,7 +171,7 @@ class CardGenerator:
         id_type = input("Enter the type of ID it is (eg. Care Card, Drivers"
                         "License, Social insurance card): ")
         id_number = input("Enter the number on the card: ")
-        id_name = input("Enter the name on the ID card r: ")
+        id_name = input("Enter the name on the ID card: ")
 
         return IdCard(item_data, id_type, id_number, id_name,)
 
