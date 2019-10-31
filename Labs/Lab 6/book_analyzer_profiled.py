@@ -56,7 +56,7 @@ class BookAnalyzer:
     def is_unique(word, word_list):
         """
         Checks to see if the given word appears in the provided sequence.
-        This check is case in-sensitive.
+        This check is case in-sensitive. This method takes the longest!
         :param word: a string
         :param word_list: a sequence of words
         :return: True if not found, false otherwise
