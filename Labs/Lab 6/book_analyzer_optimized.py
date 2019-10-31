@@ -61,9 +61,6 @@ class BookAnalyzer:
         :param word_list: a sequence of words
         :return: True if not found, false otherwise
         """
-
-        # g_m = [item for item in word_list if item[0] == "M"]
-
         for a_word in word_list:
             if word == a_word.lower():
                 return False
