@@ -86,7 +86,7 @@ def main():
     print(f"List reversed: {reversed(smurf_parade)}")
     print(smurf_parade)
     print(f"\nNumber of smurfs: {len(smurf_parade)}")
-    print(f"\nIs Clumsy part of the Smurfs? {'Clumsy2' in smurf_parade}")
+    print(f"\nIs Clumsy part of the Smurfs? {'Clumsy' in smurf_parade}")
     clumsy_count = smurf_parade.count("Clumsy")
     clumsy_index = smurf_parade.index("Papa")
     print(f"\nThe count of Clumsy is: {clumsy_count}\n")
@@ -95,15 +95,15 @@ def main():
     print(f"Who's at position 5? {smurf_parade[4]}\n")
     print("Iterate through the list:")
 
-    i = iter(smurf_parade)
-    length = len(smurf_parade)
-    counter = 0
-    while counter < length:
-        print(next(i))
-        length -= 1
+    # i = iter(smurf_parade)
+    # length = len(smurf_parade)
+    # counter = 0
+    # while counter < length:
+    #     print(next(i))
+    #     length -= 1
 
-    # for smurf in smurf_parade:
-    #     print(smurf)
+    for smurf in smurf_parade:
+        print(smurf)
 
     # print(next(i))
     # print(next(i))
