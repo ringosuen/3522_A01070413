@@ -1,7 +1,7 @@
 """
-This module is responsible for holding a badly written (but not so bad
-that you won't find this in the workplace) BookAnalyzer class that needs
-to be profiled and optimized.
+This module is the profiled version of the badly written code. Here the
+overall structure of the badly written reamins, but it has been slightly
+optimized by removing unnecessary .lower() implementations.
 """
 
 
@@ -13,7 +13,7 @@ class BookAnalyzer:
     """
 
     # a constant to help filter out common punctuation.
-    COMMON_PUNCTUATION = [",", "*", ";", ".", ":","(", "[", "]", ")"]
+    COMMON_PUNCTUATION = [",", "*", ";", ".", ":", "(", "[", "]", ")"]
 
     def __init__(self):
         self.text = None
@@ -29,7 +29,7 @@ class BookAnalyzer:
         with open(src, mode='r', encoding='utf-8') as book_file:
             self.text = book_file.readlines()
 
-        #strip out empty lines
+        # strip out empty lines
         stripped_text = []
         for line in self.text:
             if line != "\n":
@@ -51,7 +51,6 @@ class BookAnalyzer:
             temp_text.append(temp_word)
         self.text = temp_text
 
-
     @staticmethod
     def is_unique(word, word_list):
         """
@@ -68,19 +67,6 @@ class BookAnalyzer:
             if word == a_word.lower():
                 return False
         return True
-
-    # def find_unique_words(self):
-    #     """
-    #     Filters out all the words that only appear once in the text.
-    #     :return: a list of all the unique words.
-    #     """
-    #     temp_text = self.text
-    #     unique_words = []
-    #     while temp_text:
-    #         word = temp_text.pop()
-    #         if self.is_unique(word, temp_text):
-    #             unique_words.append(word)
-    #     return unique_words
 
     def find_unique_words(self):
         """
@@ -104,12 +90,12 @@ def main():
     book_analyzer = BookAnalyzer()
     book_analyzer.read_data()
     unique_words = book_analyzer.find_unique_words()
-    print("-"*50)
+    print("-" * 50)
     print(f"List of unique words (Count: {len(unique_words)})")
-    print("-"*50)
+    print("-" * 50)
     for word in unique_words:
         print(word)
-    print("-"*50)
+    print("-" * 50)
 
 
 if __name__ == '__main__':

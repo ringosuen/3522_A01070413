@@ -1,12 +1,11 @@
-from bisect import bisect_left
+"""
+This module is the optimized version of the badly written code.
+It has removed the unique_words method and redefined the find_unique_words
+method. It drastically improves efficiency by using a list comphrehension and
+a dictionary.
+"""
 
 from collections import Counter
-
-"""
-This module is responsible for holding a badly written (but not so bad
-that you won't find this in the workplace) BookAnalyzer class that needs
-to be profiled and optimized.
-"""
 
 
 class BookAnalyzer:
@@ -55,39 +54,12 @@ class BookAnalyzer:
             temp_text.append(temp_word)
         self.text = temp_text
 
-    # @staticmethod
-    # def is_unique(word, word_list):
-    #     """
-    #     Checks to see if the given word appears in the provided sequence.
-    #     This check is not case sensitive. This method takes the longest!
-    #     :param word: a string
-    #     :param word_list: a sequence of words
-    #     :return: True if not found, false otherwise
-    #     """
-    #     for a_word in word_list:
-    #         if word == a_word.lower():
-    #             return False
-    #     return True
-
-    # def find_unique_words(self):
-    #     """
-    #     Filters out all the words that only appear once in the text.
-    #     if word no in tempt_text
-    #     :return: a list of all the unique words.
-    #     """
-    #     temp_text = self.text
-    #     unique_words = []
-    #     duplicate_words = []
-    #     while temp_text:
-    #         word = temp_text.pop().lower()
-    #         if word not in temp_text:
-    #             # if self.is_unique(word, temp_text):
-    #             unique_words.append(word)
-    #         else:
-    #             duplicate_words.append(word)
-    #     return unique_words
-
     def find_unique_words(self):
+        """
+        Uses Counter to turn list into dictionary. Uses a list comprehension and
+        returns all words that appear only once, which means it is unique.
+        :return: a list of all the unique words
+        """
         my_list = [word.lower() for word in self.text]
         my_list_count = Counter(my_list)
         unique_words = [word for word in my_list_count if my_list_count[word]
