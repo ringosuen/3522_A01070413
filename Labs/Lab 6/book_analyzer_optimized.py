@@ -61,8 +61,8 @@ class BookAnalyzer:
         :return: a list of all the unique words
         """
         my_list = [word.lower() for word in self.text]
-        my_list_count = Counter(my_list)
-        unique_words = [word for word in my_list_count if my_list_count[word]
+        word_count = Counter(my_list)
+        unique_words = [word for word in word_count if word_count[word]
                         == 1]
         return unique_words
 
