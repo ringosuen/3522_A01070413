@@ -1,0 +1,5 @@
+Macbook 2011 (super slow)
+
+book_analyzer unchanged: ~ 7483ms
+book_analyzer profiled: ~ 4023ms
+book_analyer optimized: ~ 65ms
