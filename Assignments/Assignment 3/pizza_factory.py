@@ -1,4 +1,10 @@
+"""
+This module depicts the decorator pattern in action and how it adds
+toppings and cheese on top of a base pizza.
+"""
+
 import abc
+import sys
 
 
 class Pizza(abc.ABC):
@@ -17,7 +23,7 @@ class BasePizza(Pizza):
         pass
 
     def get_toppings(self):
-        return "Signature crust"
+        return "Signature Crust"
 
     def get_cost(self):
         return 4.99
@@ -33,13 +39,15 @@ class BaseToppingDecorator(Pizza):
     def get_cost(self):
         return self.decorated_pizza.get_cost()
 
+
 class Parmigiano(BaseToppingDecorator):
     def get_cost(self):
         return self.decorated_pizza.get_cost() + 4.99
 
     def get_toppings(self):
         return self.decorated_pizza.get_toppings() + " + Parmigiano " \
-                                                     "Reggiano Cheese "
+                                                     "Reggiano Cheese"
+
 
 class Mozzarella(BaseToppingDecorator):
     def get_cost(self):
@@ -48,12 +56,14 @@ class Mozzarella(BaseToppingDecorator):
     def get_toppings(self):
         return self.decorated_pizza.get_toppings() + " + Fresh Mozzarella"
 
+
 class VeganCheese(BaseToppingDecorator):
     def get_cost(self):
         return self.decorated_pizza.get_cost() + 5.99
 
     def get_toppings(self):
         return self.decorated_pizza.get_toppings() + " + Vegan Cheese"
+
 
 class Peppers(BaseToppingDecorator):
 
@@ -115,12 +125,211 @@ class BeyondMeat(BaseToppingDecorator):
         return self.decorated_pizza.get_toppings() + " + Beyond Meat"
 
 
-def main():
-    pizza_test = BasePizza()
-    pizza_test = Peppers(pizza_test)
+# def add_cheese_menu():
+#     pizza = BasePizza()
+#     while True:
+#         print(""" ======Select a Cheese=======
+#                            1. Reggiano Cheese
+#                            2. Fresh Mozzarella
+#                            3. Vegan Cheese
+#                            """)
+#         cheese_choice = int(input("Choose 1,2 or 3:"))
+#         if cheese_choice == 1:
+#             print("Reggiano cheese added")
+#             has_reggiano = True
+#         else:
+#             has_reggiano = False
+#         if cheese_choice == 2:
+#             print("Fresh Mozzearella added")
+#             has_mozzarella = True
+#         else:
+#             has_mozzarella = False
+#         if cheese_choice == 3:
+#             print("Vegan Cheese Added")
+#             has_vcheese = True
+#         else:
+#             has_vcheese = False
+#         if has_reggiano:
+#             pizza = Parmigiano(pizza)
+#             # return pizza
+#         if has_mozzarella:
+#             pizza = Mozzarella(pizza)
+#             # return pizza
+#         if has_vcheese:
+#             pizza = VeganCheese(pizza)
+#             # return pizza
+#
+#         print('Ingredients: ' + pizza.get_toppings() +
+#               '; Cost: ' + str(pizza.get_cost()))
 
-    print('Ingredients: ' + pizza_test.get_toppings() +
-          '; Cost: ' + str(pizza_test.get_cost()))
+
+def main():
+    pizza = BasePizza()
+
+    print("Welcome to Python Pizza Factory, let's build your pizza!")
+
+    print(""" ======First, Select a Cheese=======
+                           1. Reggiano Cheese
+                           2. Fresh Mozzarella
+                           3. Vegan Cheese
+                           """)
+    try:
+        cheese_choice = int(input("Choose 1,2 or 3:"))
+        if cheese_choice == 1:
+            print("Reggiano cheese added")
+            has_reggiano = True
+        else:
+            has_reggiano = False
+        if cheese_choice == 2:
+            print("Fresh Mozzearella added")
+            has_mozzarella = True
+        else:
+            has_mozzarella = False
+        if cheese_choice == 3:
+            print("Vegan Cheese Added")
+            has_vcheese = True
+        else:
+            has_vcheese = False
+
+        if has_reggiano:
+            pizza = Parmigiano(pizza)
+        if has_mozzarella:
+            pizza = Mozzarella(pizza)
+        if has_vcheese:
+            pizza = VeganCheese(pizza)
+        else:
+            if cheese_choice == 0 or cheese_choice >= 4:
+                print("Invalid number choice. Enter a number between 1 and 3")
+                main()
+
+        print('Ingredients: ' + pizza.get_toppings() +
+              '; Cost: ' + '$' + str(pizza.get_cost()))
+    except ValueError as e:
+        print(f"Invalid input: {e}. Please enter an integer between 1-3")
+        main()
+
+    while True:
+        try:
+            add_more_cheese = input("Add more cheese? Y/N")
+            if add_more_cheese.lower() == 'y':
+                print("LET'S ADD MORE CHEESE!")
+                print(""" ======Select a Cheese=======
+                                          1. Reggiano Cheese
+                                          2. Fresh Mozzarella
+                                          3. Vegan Cheese
+                                          """)
+                cheese_choice = int(input("Choose 1,2 or 3:"))
+                if cheese_choice == 1:
+                    print("Reggiano cheese added")
+                    has_reggiano = True
+                else:
+                    has_reggiano = False
+                if cheese_choice == 2:
+                    print("Fresh Mozzearella added")
+                    has_mozzarella = True
+                else:
+                    has_mozzarella = False
+                if cheese_choice == 3:
+                    print("Vegan Cheese Added")
+                    has_vcheese = True
+                else:
+                    has_vcheese = False
+                if has_reggiano:
+                    pizza = Parmigiano(pizza)
+                if has_mozzarella:
+                    pizza = Mozzarella(pizza)
+                if has_vcheese:
+                    pizza = VeganCheese(pizza)
+                elif cheese_choice == 0 or cheese_choice >= 4:
+                    print("Input an integer between 1-3")
+                    break
+                print('Ingredients: ' + pizza.get_toppings() +
+                      '; Cost: ' + '$' + str(pizza.get_cost()))
+            if add_more_cheese.lower() == 'n':
+                print("Add toppings or checkout now")
+                break
+            elif add_more_cheese.lower() is not 'n' or 'y':
+                print("=== Input Y or N Please! ===")
+        except ValueError as e:
+            print(f"{e}. Try Again")
+
+
+    while True:
+        print(""" ======ADD TOPPINGS OR CHECKOUT=======
+                                            1. Add Toppings
+                                            2. Checkout
+                                            """)
+        choice = int(input("Please Select 1 or 2: "))
+        if choice == 1:
+            print("""                   ======ADD TOPPINGS =======
+                           1. Add Peppers
+                           2. Add Pineapple 
+                           3. Add Mushrooms
+                           4. Add Fresh Basil 
+                           5. Add Spinach
+                           6. Add Pepperoni 
+                           7. Add Beyond Meat 
+                 """)
+            topping_choice = int(input("Please select 1-7"))
+            if topping_choice == 1:
+                print("Peppers added")
+                has_pepper = True
+            else:
+                has_pepper = False
+            if topping_choice == 2:
+                print("Pineapple added")
+                has_pineapple = True
+            else:
+                has_pineapple = False
+            if topping_choice == 3:
+                print("Mushrooms added")
+                has_mushrooms = True
+            else:
+                has_mushrooms = False
+            if topping_choice == 4:
+                print("Fresh Basil Added")
+                has_freshbasil = True
+            else:
+                has_freshbasil = False
+            if topping_choice == 5:
+                print("Spinach Added")
+                has_spinach = True
+            else:
+                has_spinach = False
+            if topping_choice == 6:
+                print("Pepperoni Added")
+                has_pepperoni = True
+            else:
+                has_pepperoni = False
+            if topping_choice == 7:
+                print("Beyond Meat Added")
+                has_beyondmeat = True
+            else:
+                has_beyondmeat = False
+
+            if has_pepper:
+                pizza = Peppers(pizza)
+            if has_pineapple:
+                pizza = Pineapple(pizza)
+            if has_mushrooms:
+                pizza = Mushrooms(pizza)
+            if has_freshbasil:
+                pizza = FreshBasil(pizza)
+            if has_spinach:
+                pizza = Spinach(pizza)
+            if has_pepperoni:
+                pizza = Pepperoni(pizza)
+            if has_beyondmeat:
+                pizza = BeyondMeat(pizza)
+
+            print('Ingredients: ' + pizza.get_toppings() +
+                  '; Cost: ' + '$' + str(pizza.get_cost()))
+
+        if choice == 2:
+            print("OK BYE! Here's the total: ")
+            print('Toppings Added: ' + pizza.get_toppings() +
+                  '\nTotal Cost: ' + '$' + str(pizza.get_cost()))
+            sys.exit()
 
 
 if __name__ == '__main__':
