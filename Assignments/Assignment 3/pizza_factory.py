@@ -35,16 +35,25 @@ class BaseToppingDecorator(Pizza):
 
 class Parmigiano(BaseToppingDecorator):
     def get_cost(self):
-        return self.decorated_pizza.get_cost() + 2.00
+        return self.decorated_pizza.get_cost() + 4.99
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Peppers"
+        return self.decorated_pizza.get_toppings() + " + Parmigiano " \
+                                                     "Reggiano Cheese "
 
 class Mozzarella(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 3.99
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Fresh Mozzarella"
 
 class VeganCheese(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 5.99
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Vegan Cheese"
 
 class Peppers(BaseToppingDecorator):
 
@@ -52,34 +61,58 @@ class Peppers(BaseToppingDecorator):
     #     BaseToppingDecorator.__init__(self, decorated_pizza)
 
     def get_cost(self):
-        return self.decorated_pizza.get_cost() + 2.00
+        return self.decorated_pizza.get_cost() + 1.50
 
     def get_toppings(self):
         return self.decorated_pizza.get_toppings() + " + Peppers"
 
 
 class Pineapple(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 2.00
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Pineapple"
 
 
 class Mushrooms(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 1.50
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Mushrooms"
 
 
 class FreshBasil(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 2.00
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Fresh Basil"
 
 
 class Spinach(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 1.00
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Spinach"
 
 
 class Pepperoni(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 3.00
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Pepperoni"
 
 
 class BeyondMeat(BaseToppingDecorator):
-    pass
+    def get_cost(self):
+        return self.decorated_pizza.get_cost() + 4.00
+
+    def get_toppings(self):
+        return self.decorated_pizza.get_toppings() + " + Beyond Meat"
 
 
 def main():
