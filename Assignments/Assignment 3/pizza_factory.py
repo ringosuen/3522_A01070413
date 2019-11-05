@@ -39,7 +39,7 @@ class BasePizza(Pizza):
         at 4.99. Decorators will modify the price accordingly.
         :return: Signature Crust $4.99
         """
-        return "Signature Crust $4.99"
+        return "\n   Signature Crust $4.99\n"
 
     def get_cost(self):
         """
@@ -67,91 +67,203 @@ class BaseToppingDecorator(Pizza):
 
 class Parmigiano(BaseToppingDecorator):
     """
-    Decorator that adds Permigiano cheese to a Pizza. The cost is $4.99.
+    Decorator that adds Permigiano Reggiano
+    cheese to a concrete Pizza. The cost is $4.99.
     """
     def get_cost(self):
+        """
+        Returns additional 4.99 on top of base pizza.
+        :return: self.decorated_pizza.get_cost() + 4.99
+        """
         return self.decorated_pizza.get_cost() + 4.99
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Parmigiano " \
+        """
+        Returns additional Permigiano Rreggiano cheese on top of pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Parmigiano " \
                                                      "Reggiano Cheese $4.99"
+        """
+        return self.decorated_pizza.get_toppings() + " + Parmigiano " \
+                                                     "Reggiano Cheese $4.99\n"
 
 
 class Mozzarella(BaseToppingDecorator):
+    """
+    Decorator that adds Mozzarella cheese to the base concrete pizza.
+    """
     def get_cost(self):
+        """
+        Returns an additional cost of 3.99 to base crust pizza.
+        :return: self.decorated_pizza.get_cost() + 3.99
+        """
         return self.decorated_pizza.get_cost() + 3.99
 
     def get_toppings(self):
+        """
+        Returns additional Fresh Mozzarella cheese on top of base pizza
+        :return: self.decorated_pizza.get_toppings() + " + Fresh Mozzarella
+        """
         return self.decorated_pizza.get_toppings() + " + Fresh Mozzarella" \
-                                                     " $3.99"
+                                                     " $3.99\n"
 
 
 class VeganCheese(BaseToppingDecorator):
+    """
+    Decorator that adds Vegan cheese to the base concrete pizza.
+    """
     def get_cost(self):
+        """
+        Returns an additional cost of 5.99 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 5.99
+        """
         return self.decorated_pizza.get_cost() + 5.99
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Vegan Cheese"
+        """
+        Returns additional Vegan cheese on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Vegan Cheese $5.99"
+        """
+        return self.decorated_pizza.get_toppings() + " + Vegan Cheese $5.99\n"
 
 
 class Peppers(BaseToppingDecorator):
-
-    # def __init__(self, decorated_pizza):
-    #     BaseToppingDecorator.__init__(self, decorated_pizza)
-
+    """
+    Decorator that adds Pepper to the base concrete pizza.
+    """
     def get_cost(self):
+        """
+        Returns an additional cost of 1.50 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 1.50
+        """
         return self.decorated_pizza.get_cost() + 1.50
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Peppers"
+        """
+        Returns peppers on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Peppers $1.50"
+        """
+        return self.decorated_pizza.get_toppings() + " + Peppers $1.50\n"
 
 
 class Pineapple(BaseToppingDecorator):
+    """
+    Decorator that adds Pineapple to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 2.00 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 2.00
+        """
         return self.decorated_pizza.get_cost() + 2.00
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Pineapple"
+        """
+        Returns pineapple on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Pineapple $2.00"
+        """
+        return self.decorated_pizza.get_toppings() + " + Pineapple $2.00\n"
 
 
 class Mushrooms(BaseToppingDecorator):
+    """
+    Decorator that adds Mushrooms to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 1.50 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 1.50
+        """
         return self.decorated_pizza.get_cost() + 1.50
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Mushrooms"
+        """
+        Returns mushrooms on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Mushrooms $1.50"
+        """
+        return self.decorated_pizza.get_toppings() + " + Mushrooms $1.50\n"
 
 
 class FreshBasil(BaseToppingDecorator):
+    """
+    Decorator that adds Fresh Basil to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 2.00 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 2.00
+        """
         return self.decorated_pizza.get_cost() + 2.00
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Fresh Basil"
+        """
+        Returns fresh basil on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Fresh Basil $2.00
+        """
+        return self.decorated_pizza.get_toppings() + " + Fresh Basil $2.00"
 
 
 class Spinach(BaseToppingDecorator):
+    """
+    Decorator that adds Spinach to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 1.00 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 1.00
+        """
         return self.decorated_pizza.get_cost() + 1.00
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Spinach"
+        """
+        Returns spinach on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Spinach $1.00"
+        """
+        return self.decorated_pizza.get_toppings() + " + Spinach $1.00\n"
 
 
 class Pepperoni(BaseToppingDecorator):
+    """
+    Decorator that adds Pepperoni to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 3.00 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 3.00
+        """
+
         return self.decorated_pizza.get_cost() + 3.00
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Pepperoni"
+        """
+        Returns pepporoni on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Pepperoni $3.00"
+        """
+        return self.decorated_pizza.get_toppings() + " + Pepperoni $3.00\n"
 
 
 class BeyondMeat(BaseToppingDecorator):
+    """
+    Decorator that adds Beyond Meat to the base concrete pizza.
+    """
+
     def get_cost(self):
+        """
+        Returns an additional cost of 4.00 to the base pizza.
+        :return: self.decorated_pizza.get_cost() + 4.00
+        """
         return self.decorated_pizza.get_cost() + 4.00
 
     def get_toppings(self):
-        return self.decorated_pizza.get_toppings() + " + Beyond Meat"
+        """
+        Returns beyond meat on top of base pizza.
+        :return: self.decorated_pizza.get_toppings() + " + Beyond Meat $4.00"
+        """
+        return self.decorated_pizza.get_toppings() + " + Beyond Meat $4.00\n"
 
 
 # def add_cheese_menu():
@@ -193,6 +305,9 @@ class BeyondMeat(BaseToppingDecorator):
 
 
 def main():
+    """
+    User menu that asks user to add Cheese, then toppings or checkout
+    """
     pizza = BasePizza()
 
     print("Welcome to Python Pizza Factory, let's build your pizza!")
@@ -231,8 +346,8 @@ def main():
                 print("Invalid number choice. Enter a number between 1 and 3")
                 main()
 
-        print('Ingredients: ' + pizza.get_toppings() +
-              '; Cost: ' + '$' + str(pizza.get_cost()))
+        print('Current Ingredients: ' + pizza.get_toppings() +
+              'Current Cost: ' + '$' + str(pizza.get_cost()))
     except ValueError as e:
         print(f"Invalid input: {e}. Please enter an integer between 1-3")
         main()
@@ -358,12 +473,12 @@ def main():
                 if has_beyondmeat:
                     pizza = BeyondMeat(pizza)
 
-                print('Ingredients: ' + pizza.get_toppings() +
-                      '; Cost: ' + '$' + str(pizza.get_cost()))
+                print('Current Ingredients: ' + pizza.get_toppings() +
+                      'Current Cost: ' + '$' + str(pizza.get_cost()))
 
             if choice == 2:
-                print("OK BYE! Here's the total: ")
-                print('Toppings Added:\n' + pizza.get_toppings() +
+                print("ENJOY THE PIZZA! Here's the total: ")
+                print('\nToppings Added:\n' + pizza.get_toppings() +
                       '\nTotal Cost: ' + '$' + str(pizza.get_cost()))
                 sys.exit()
             elif choice == 0 or choice >= 3:
