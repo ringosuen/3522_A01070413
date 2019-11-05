@@ -8,6 +8,11 @@ import sys
 
 
 class Pizza(abc.ABC):
+    """
+    The pizza interface that all concrete Pizza and decorators
+    must adhere to. Thie interface defines getting the toppings and
+    getting the price methods that do not have an implementation.
+    """
 
     @abc.abstractmethod
     def get_toppings(self):
@@ -19,17 +24,37 @@ class Pizza(abc.ABC):
 
 
 class BasePizza(Pizza):
+    """
+    The base pizza is responsible for getting the toppings and getting the
+    costs of the pizza and the toppings added to the pizza. It implements the
+    pizza interface as defined by the parent Pizza class. This is the object we
+    are adding behaviours to.
+    """
     def __init__(self):
         pass
 
     def get_toppings(self):
-        return "Signature Crust 4.99"
+        """
+        The base topping of the pizza is a minimum of one ingredient: The crust
+        at 4.99. Decorators will modify the price accordingly.
+        :return: Signature Crust $4.99
+        """
+        return "Signature Crust $4.99"
 
     def get_cost(self):
+        """
+        The base price of the is 4.99. The decorators will modify and
+        change the price accordingly.
+        :return: 4.99
+        """
         return 4.99
 
 
 class BaseToppingDecorator(Pizza):
+    """
+    The base decorator that wraps around a Pizza concrete class. It does not
+    add any new behaviours. Every other decorator inherit from this class.
+    """
     def __init__(self, decorated_pizza):
         self.decorated_pizza = decorated_pizza
 
@@ -41,6 +66,9 @@ class BaseToppingDecorator(Pizza):
 
 
 class Parmigiano(BaseToppingDecorator):
+    """
+    Decorator that adds Permigiano cheese to a Pizza. The cost is $4.99.
+    """
     def get_cost(self):
         return self.decorated_pizza.get_cost() + 4.99
 
