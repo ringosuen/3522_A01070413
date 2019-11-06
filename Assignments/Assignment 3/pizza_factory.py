@@ -202,7 +202,7 @@ class FreshBasil(BaseToppingDecorator):
         Returns fresh basil on top of base pizza.
         :return: self.decorated_pizza.get_toppings() + " + Fresh Basil $2.00
         """
-        return self.decorated_pizza.get_toppings() + " + Fresh Basil $2.00"
+        return self.decorated_pizza.get_toppings() + " + Fresh Basil $2.00\n"
 
 
 class Spinach(BaseToppingDecorator):
@@ -347,14 +347,14 @@ def main():
                 main()
 
         print('Current Ingredients: ' + pizza.get_toppings() +
-              'Current Cost: ' + '$' + str(pizza.get_cost()))
+              'Current Cost: ' + f"$%.2f" % pizza.get_cost())
     except ValueError as e:
         print(f"Invalid input: {e}. Please enter an integer between 1-3")
         main()
 
     while True:
         try:
-            add_more_cheese = input("Add more cheese? Y/N")
+            add_more_cheese = input("Add more cheese? Y/N: ")
             if add_more_cheese.lower() == 'n':
                 print("Add toppings or checkout now")
                 break
@@ -398,7 +398,7 @@ def main():
                           " Try Again")
 
                 print('Ingredients: ' + pizza.get_toppings() +
-                      '; Cost: ' + '$' + str(pizza.get_cost()))
+                      'Cost: ' + f"$%.2f" % pizza.get_cost())
         except ValueError as e:
             print(f"{e}. Try Again")
 
@@ -474,12 +474,15 @@ def main():
                     pizza = BeyondMeat(pizza)
 
                 print('Current Ingredients: ' + pizza.get_toppings() +
-                      'Current Cost: ' + '$' + str(pizza.get_cost()))
+                      'Current Cost: ' + f"$%.2f" % pizza.get_cost())
 
             if choice == 2:
                 print("ENJOY THE PIZZA! Here's the total: ")
                 print('\nToppings Added:\n' + pizza.get_toppings() +
-                      '\nTotal Cost: ' + '$' + str(pizza.get_cost()))
+                      '\nTotal Cost: ' + '$' + str((pizza.get_cost())))
+
+                print('\nTotal Cost: ' + f"$%.2f" % pizza.get_cost())
+
                 sys.exit()
             elif choice == 0 or choice >= 3:
                 print("Invalid choice. Please choose 1 or 2")
