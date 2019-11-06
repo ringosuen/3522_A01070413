@@ -1,6 +1,7 @@
 """
 This module depicts the decorator pattern in action and how it adds
-toppings and cheese on top of a base pizza.
+toppings and cheese on top of a base pizza. It tallys up the toppings and
+generates the total price of the pizza.
 """
 
 import abc
@@ -266,44 +267,6 @@ class BeyondMeat(BaseToppingDecorator):
         return self.decorated_pizza.get_toppings() + " + Beyond Meat $4.00\n"
 
 
-# def add_cheese_menu():
-#     pizza = BasePizza()
-#     while True:
-#         print(""" ======Select a Cheese=======
-#                            1. Reggiano Cheese
-#                            2. Fresh Mozzarella
-#                            3. Vegan Cheese
-#                            """)
-#         cheese_choice = int(input("Choose 1,2 or 3:"))
-#         if cheese_choice == 1:
-#             print("Reggiano cheese added")
-#             has_reggiano = True
-#         else:
-#             has_reggiano = False
-#         if cheese_choice == 2:
-#             print("Fresh Mozzearella added")
-#             has_mozzarella = True
-#         else:
-#             has_mozzarella = False
-#         if cheese_choice == 3:
-#             print("Vegan Cheese Added")
-#             has_vcheese = True
-#         else:
-#             has_vcheese = False
-#         if has_reggiano:
-#             pizza = Parmigiano(pizza)
-#             # return pizza
-#         if has_mozzarella:
-#             pizza = Mozzarella(pizza)
-#             # return pizza
-#         if has_vcheese:
-#             pizza = VeganCheese(pizza)
-#             # return pizza
-#
-#         print('Ingredients: ' + pizza.get_toppings() +
-#               '; Cost: ' + str(pizza.get_cost()))
-
-
 def main():
     """
     User menu that asks user to add Cheese, then toppings or checkout
@@ -346,7 +309,7 @@ def main():
                 print("Invalid number choice. Enter a number between 1 and 3")
                 main()
 
-        print('Current Ingredients: ' + pizza.get_toppings() +
+        print('\nCurrent Ingredients: ' + pizza.get_toppings() +
               'Current Cost: ' + f"$%.2f" % pizza.get_cost())
     except ValueError as e:
         print(f"Invalid input: {e}. Please enter an integer between 1-3")
@@ -354,7 +317,7 @@ def main():
 
     while True:
         try:
-            add_more_cheese = input("Add more cheese? Y/N: ")
+            add_more_cheese = input("\nAdd more cheese? Y/N: ")
             if add_more_cheese.lower() == 'n':
                 print("Add toppings or checkout now")
                 break
@@ -363,9 +326,9 @@ def main():
             if add_more_cheese.lower() == 'y':
                 print("LET'S ADD MORE CHEESE!")
                 print(""" ======Select a Cheese=======
-                                          1. Reggiano Cheese
-                                          2. Fresh Mozzarella
-                                          3. Vegan Cheese
+                        1. Reggiano Cheese
+                        2. Fresh Mozzarella
+                        3. Vegan Cheese
                                           """)
                 cheese_choice = int(input("Choose 1,2 or 3:"))
                 if cheese_choice == 1:
@@ -397,15 +360,15 @@ def main():
                     print("No cheese added! Input an integer between 1-3."
                           " Try Again")
 
-                print('Ingredients: ' + pizza.get_toppings() +
+                print('\nIngredients: ' + pizza.get_toppings() +
                       'Cost: ' + f"$%.2f" % pizza.get_cost())
         except ValueError as e:
             print(f"{e}. Try Again")
 
     while True:
-        print(""" ======ADD TOPPINGS OR CHECKOUT=======
-                                            1. Add Toppings
-                                            2. Checkout
+        print("""       ======ADD TOPPINGS OR CHECKOUT=======
+                                1. Add Toppings
+                                2. Checkout
                                         """)
         try:
             choice = int(input("Please Select 1 or 2: "))
@@ -478,8 +441,7 @@ def main():
 
             if choice == 2:
                 print("ENJOY THE PIZZA! Here's the total: ")
-                print('\nToppings Added:\n' + pizza.get_toppings() +
-                      '\nTotal Cost: ' + '$' + str((pizza.get_cost())))
+                print('\nToppings Added:\n' + pizza.get_toppings())
 
                 print('\nTotal Cost: ' + f"$%.2f" % pizza.get_cost())
 
