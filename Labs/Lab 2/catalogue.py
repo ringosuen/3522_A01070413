@@ -69,7 +69,7 @@ class Catalogue:
                 print(f"Item found: {item}")
                 return item
             else:
-                print("can't find shit")
+                print("can't find item")
 
     def check_out(self, call_number):
         """
