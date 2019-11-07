@@ -76,7 +76,7 @@ class Item(abc.ABC):
 
 
 class Book(Item):
-    def __init__(self, title, call_num, num_copies, author):
+    def __init__(self, call_num, title, num_copies, author):
         """
            Initializes a Book library item with title, call number, author, and number of coppies
            :param title: a string
@@ -264,9 +264,9 @@ class Catalogue:
         while user_input != "b":
             print("\nWelcome to the Catalogue!")
             print("------------------------")
-            print("1. Find an item")
-            print("2. Add an item")
-            print("3. Remove an item")
+            print("1. Find item")
+            print("2. Add item")
+            print("3. Remove item")
             print("4. Display Entire Catalogue")
             print("5. Back")
             user_input = int(input("Enter you choice (1-5): "))
