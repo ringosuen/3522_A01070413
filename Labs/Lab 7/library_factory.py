@@ -154,9 +154,6 @@ class Journal(Item):
 
 
 class ItemFactory(abc.ABC):
-    def create_item(self) -> Item:
-        pass
-
     @staticmethod
     def generate_item() -> Item:
         """
@@ -165,7 +162,6 @@ class ItemFactory(abc.ABC):
         :return: An Item.
         """
         print("\nItem Generator")
-        print("--------------")
         print("1. Book")
         print("2. DVD")
         print("3. Journal")
@@ -188,15 +184,12 @@ class ItemFactory(abc.ABC):
     @staticmethod
     def _prompt_common_information():
         """
-        Prompts the user for item information that is common to all
-        items.
-        :return: a tuple with the following data:
-        (call number, title, number of copies)
+        Prompts the user for item information that is common
+        :return: a tuple
         """
         call_number = input("Enter Call Number: ")
         title = input("Enter title: ")
-        num_copies = int(input("Enter number of copies "
-                               "(positive number): "))
+        num_copies = int(input("Enter number of copies: "))
         item_data = (call_number, title, num_copies)
         return item_data
 
