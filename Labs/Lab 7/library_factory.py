@@ -78,7 +78,8 @@ class Item(abc.ABC):
 class Book(Item):
     def __init__(self, call_num, title, num_copies, author):
         """
-           Initializes a Book library item with title, call number, author, and number of coppies
+           Initializes a Book library item with title, call number, author,
+           and number of coppies
            :param title: a string
            :param call_number: an int
            :param author: a string
@@ -157,7 +158,7 @@ class ItemFactory(abc.ABC):
         pass
 
     @staticmethod
-    def generate_item():
+    def generate_item() -> Item:
         """
         Prompts the user with a menu asking them to create either a
         book, DVD or Journal
@@ -202,7 +203,7 @@ class ItemFactory(abc.ABC):
 
 class BookFactory(ItemFactory):
     @staticmethod
-    def generate_book():
+    def generate_book() -> Item:
         """
         Prompts the user for book information and creates a book item.
         :return: A Book
@@ -214,7 +215,7 @@ class BookFactory(ItemFactory):
 
 class DvdFactory(ItemFactory):
     @staticmethod
-    def generate_dvd():
+    def generate_dvd() -> Item:
         """
         Prompts the user for DVD information and creates a DVD item.
         :return: A DVD
@@ -228,7 +229,7 @@ class DvdFactory(ItemFactory):
 
 class JournalFactory(ItemFactory):
     @staticmethod
-    def generate_journal():
+    def generate_journal() -> Item:
         """
         Prompts the user for Journal information and creates a Journal item.
         :return: A Journal
@@ -470,7 +471,7 @@ class Library:
                 print("Could not process the input. Please enter a"
                       " number from 1 - 4.")
 
-        print("Thank you for visiting the Library.")
+        print("See you later. Thanks for coming")
 
 
 def generate_test_items():
@@ -480,14 +481,10 @@ def generate_test_items():
     """
     item_list = [
         Book("123", "Harry Potter 1", 2, "J K Rowling"),
-        Book("234", "Harry Potter 2", 5, "J K Rowling"),
-        Book("345", "Harry Potter 3", 4, "J K Rowling"),
-        DVD("9999", "The Lord of The Rings Extended Edition",
-            2, "2005-03-21", 2),
-        DVD("8888", "Some movie name I cant think of",
-            2, "2015-07-01", 2),
-        Journal("7777", "The Journal of Health Sciences", 7,
-                "Corgi Publishers", 97)
+        DVD("9999", "Pokemon 1st moveie",
+            2, "2001-03-21", 2),
+        Journal("7777", "Python", 2,
+                "Python Publisher", 87)
     ]
     return item_list
 
@@ -498,8 +495,8 @@ def main():
     """
     item_list = generate_test_items()
     my_catalogue = Catalogue(item_list)
-    my_epic_library = Library(my_catalogue)
-    my_epic_library.display_library_menu()
+    my_library = Library(my_catalogue)
+    my_library.display_library_menu()
 
 
 if __name__ == '__main__':
