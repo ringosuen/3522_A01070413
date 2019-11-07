@@ -74,6 +74,13 @@ class Catalogue:
         :param title: a string
         :return: found item
         """
+        found_item = [item for item in self.item_list if title == item.get_title()]
+        print(str(found_item))
+        # if found_item:
+        #     return f"item found {found_item}"
+        # else:
+        #     print("can't find item")
+
         for item in self.item_list:
             if title == item.get_title():
                 print(f"Item found: {item}")
@@ -111,9 +118,7 @@ class Catalogue:
         :return: item list
         """
         if self.item_list:
-            print("The items we have made available in our library are:\n")
-            for item in self.item_list:
-                print(item)
+            [print(item) for item in self.item_list]
         else:
             print("Sorry, we have no books available "
                   "in the library at the moment")
