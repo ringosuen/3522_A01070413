@@ -55,7 +55,7 @@ def main():
             user_input = int(input("enter call number: "))
             catalogue.return_item(user_input)
         elif choice == 6:
-            user_input = input("enter title to search: ").capitalize()
+            user_input = input("enter title to search: ")
             catalogue.search(user_input)
         if choice == 7:
             sys.exit()

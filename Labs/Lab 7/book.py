@@ -13,7 +13,7 @@ class LibraryItemGenerator(abc.ABC):
     @abstractclassmethods.
     """
     def __init__(self, title, call_number, num_copies):
-        self._title = title
+        self.title = title
         self._call_number = call_number
         self.num_copies = num_copies
 
@@ -29,7 +29,7 @@ class LibraryItemGenerator(abc.ABC):
         Gets the title of item.
         :return: title of item
         """
-        return self._title
+        return self.title
 
     def check_availability(self):
         """
@@ -42,7 +42,7 @@ class LibraryItemGenerator(abc.ABC):
             return False
 
     def __str__(self):
-        return (f"Book Title: {self._title}, Call number: {self._call_number},"
+        return (f"Book Title: {self.title}, Call number: {self._call_number},"
                 f"Number of copies available: {self.num_copies}")
 
 
@@ -60,7 +60,7 @@ class Book(LibraryItemGenerator):
         super().__init__(title, call_number, num_copies)
 
     def __str__(self):
-        return (f"Book Title: {self._title}, "
+        return (f"Book Title: {self.title}, "
                 f"Author: {self.author} "
                 f"Call number: {self._call_number},"
                 f"Number of copies available: {self.num_copies}")
@@ -84,10 +84,10 @@ class Dvd(LibraryItemGenerator):
         super().__init__(title, call_number, num_copies)
 
     def __str__(self):
-        return (f"Dvd Title: {self._title} , Call number: {self._call_number}, "
+        return (f"Dvd Title: {self.title} , Call number: {self._call_number}, "
                 f"Number of copies available: {self.num_copies}, "
                 f"Release date: {self._release_date}, "
-                f"Region code: {self._region_code} ")
+                f"Region code: {self._region_code}")
 
 
 class Journal(LibraryItemGenerator):
@@ -111,7 +111,7 @@ class Journal(LibraryItemGenerator):
         super().__init__(title, call_number, num_copies)
 
     def __str__(self):
-        return (f"Journal Title: {self._title} , call number: {self._call_number}, "
+        return (f"Journal Title: {self.title} , call number: {self._call_number}, "
                 f" Number of copies available {self.num_copies}, "
                 f"Name: {self._name}, "
                 f"Publisher: {self._publisher}, "

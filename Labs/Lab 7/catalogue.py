@@ -63,6 +63,7 @@ class Catalogue:
         :param call_number: an int
         :return: new list with removed object
         """
+
         for item in self.item_list:
             if call_number == item.get_call_number():
                 print("The item you requested has now been removed")
@@ -74,25 +75,19 @@ class Catalogue:
         :param title: a string
         :return: found item
         """
-        found_item = [item for item in self.item_list if title == item.get_title()]
-        print(str(found_item))
-        # if found_item:
-        #     return f"item found {found_item}"
-        # else:
-        #     print("can't find item")
 
-        for item in self.item_list:
-            if title == item.get_title():
-                print(f"Item found: {item}")
-                return item
-            else:
-                print("can't find item")
+        found_item = [print(item) for item in self.item_list if title == item.get_title()]
+        if found_item:
+            print("These are the items found!")
+        else:
+            print("not found")
 
     def check_out(self, call_number):
         """
         Check out item, decreases number of copies by 1.
         :param call_number: an int
         """
+
         for item in self.item_list:
             if call_number == item.get_call_number():
                 print("The item you have requested has now been checked out")
