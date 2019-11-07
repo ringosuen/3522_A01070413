@@ -36,19 +36,18 @@ class Catalogue:
             if choice == 1:
                 item = Book(input("Enter title: "),
                             int(input("Enter call number: ")),
+                            int(input("Enter number of copies: ")),
                             input("Enter author: "),
-                            int(input("Enter number of copies: ")))
+                            )
             if choice == 2:
                 item = Dvd(input("Enter title"),
                            int(input("Enter call number: ")),
-                           input("Enter author"),
                            int(input("Enter number of copies: ")),
                            input("Enter release date: "),
                            int(input("Region Code: ")))
             if choice == 3:
                 item = Journal(input("Enter title: "),
                                int(input("Enter call number: ")),
-                               input("Enter author:"),
                                int(input("Enter number of copies: ")),
                                input("Enter name: "),
                                int(input("Enter issue number: ")),

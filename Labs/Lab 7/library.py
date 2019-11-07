@@ -1,4 +1,3 @@
-from book import LibraryItemGenerator, Book, Dvd, Journal
 import abc
 import sys
 from catalogue import Catalogue
@@ -17,19 +16,21 @@ class Library:
             for item in catalogue.item_list:
                 print(item)
         else:
-            print("Sorry, we have no books available in the library at the moment")
+            print("Sorry, we have no books available in the "
+                  "library at the moment")
 
 
 def main():
     """
-    Displays a menu and lets user add, remove, display, checkout, return and find items in a library catalog.
+    Displays a menu and lets user add, remove, display, checkout,
+    return and find items in a library catalog.
     """
     catalogue = Catalogue()
 
-    # book1 = Book("title1", 22323, "author", 4)
-    # dvd1 = Dvd("dvdt", 1111, "jurassic", 2, "sept 2", "japan")
-    # catalogue.add_item(book1)
-    # catalogue.add_item(dvd1)
+    book1 = Book("title1", 22323, "author", 4)
+    dvd1 = Dvd("dvdt", 1111, "jurassic", 2, "sept 2", "japan")
+    catalogue.add_item(book1)
+    catalogue.add_item(dvd1)
 
     while True:
         print(""" ======LIBRARY MENU=======
