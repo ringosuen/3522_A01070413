@@ -1,3 +1,7 @@
+"""
+This module represents a factory pattern. This factory pattern
+relates to an Item Factory that can generate a Book, DVD, or Journal.
+"""
 import abc
 import difflib
 
@@ -28,14 +32,8 @@ class Item(abc.ABC):
     @property
     def call_number(self):
         """
-        Right, this here is another way of using properties.
-        We use decorators. The @property decorator defines a property
-        that only allows us to GET a value and not set one.
-
-        I want to point out that I have not expected you to do this in
-        your labs. I'm using this as an opportunity to introduce you to
-        a new way of avoiding mechanical getters and setters.
-        :return:
+        Gets the call number from item.
+        :return: call num
         """
         return self.call_num
 
@@ -58,15 +56,15 @@ class Item(abc.ABC):
 
     def increment_number_of_copies(self):
         """
-        Set's the number of copies of an item
-        :param value: a positive integer
+        Increment number of copies
+        :param value: integer
         """
         self.num_copies += 1
 
     def decrement_number_of_copies(self):
         """
-        Set's the number of copies of an item
-        :param value: a positive integer
+        Decrement number of copies
+        :param value: integer
         """
         self.num_copies -= 1
 
@@ -153,20 +151,20 @@ class Journal(Item):
                f"Issue #: {self._issue}"
 
 
-class ItemFactory(abc.ABC):
+class LibraryItemGenerator:
     @staticmethod
     def generate_item() -> Item:
         """
-        Prompts the user with a menu asking them to create either a
+        Menu asking user to create either a
         book, DVD or Journal
         :return: An Item.
         """
-        print("\nItem Generator")
+        print("\nChoose an item to add:")
         print("1. Book")
         print("2. DVD")
         print("3. Journal")
         print("4. Quit")
-        user_input = int(input("What item would you like to add (1-4)?"))
+        user_input = int(input("What item would you like to add?"))
 
         new_item = None
         if user_input == 1:
@@ -181,10 +179,13 @@ class ItemFactory(abc.ABC):
             print("Invalid choice entered.")
         return new_item
 
+
+class ItemFactory(abc.ABC):
+
     @staticmethod
     def _prompt_common_information():
         """
-        Prompts the user for item information that is common
+        Asks the user for item information that is common
         :return: a tuple
         """
         call_number = input("Enter Call Number: ")
@@ -290,8 +291,7 @@ class Catalogue:
             else:
                 print("Could not process input. ")
 
-            user_input = input("Would you like to do anything else? "
-                               "Enter C to continue and B to go back.")
+            user_input = input("Enter C to continue and B to go back.")
             user_input = user_input.lower()
 
     def _retrieve_item_by_call_number(self, call_number):
@@ -325,7 +325,8 @@ class Catalogue:
         """
         Add a brand new item to the catalogue with a unique call number.
         """
-        new_item = ItemFactory.generate_item()
+        new_item = LibraryItemGenerator.generate_item()
+        # new_item = ItemFactory.generate_item()
         found_item = self._retrieve_item_by_call_number(
             new_item.call_number)
         if found_item:
@@ -413,8 +414,8 @@ class Library:
         :param call_number: a string
         :precondition call_number: a unique identifier
         """
-        status = self.catalogue.reduce_item_count(call_number)
-        if status:
+        item_count = self.catalogue.reduce_item_count(call_number)
+        if item_count:
             print("Checkout complete!")
         else:
             print(f"Could not find item with call number {call_number}"
@@ -426,8 +427,8 @@ class Library:
         :param call_number: a string
         :precondition call_number: a unique identifier
         """
-        status = self.catalogue.increment_item_count(call_number)
-        if status:
+        item_count = self.catalogue.increment_item_count(call_number)
+        if item_count:
             print("Item returned successfully!")
         else:
             print(f"Could not find item with call number {call_number}"
@@ -436,7 +437,7 @@ class Library:
     def display_library_menu(self):
         """
         Display the library menu allowing the user to either access the
-        catalogue, check out or return an item.
+        catalogue.
         """
         user_input = None
         while user_input != 4:
@@ -473,8 +474,8 @@ def generate_test_items():
     :return: a list
     """
     item_list = [
-        Book("123", "Harry Potter 1", 2, "J K Rowling"),
-        DVD("9999", "Pokemon 1st moveie",
+        Book("123", "Harry Potter", 2, "J K Rowling"),
+        DVD("9999", "Pokemon first movie",
             2, "2001-03-21", 2),
         Journal("7777", "Python", 2,
                 "Python Publisher", 87)

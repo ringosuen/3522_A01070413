@@ -76,7 +76,8 @@ class Catalogue:
         :return: found item
         """
 
-        found_item = [print(item) for item in self.item_list if title == item.get_title()]
+        found_item = [print(item) for item in self.item_list if title
+                      == item.get_title()]
         if found_item:
             print("These are the items found!")
         else:
