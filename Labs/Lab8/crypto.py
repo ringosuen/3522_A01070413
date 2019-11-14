@@ -2,6 +2,8 @@ import des
 import argparse
 import abc
 import enum
+import ast
+
 
 class CryptoMode(enum.Enum):
     """
@@ -31,8 +33,8 @@ class Request:
         - key: The Key value to use for encryption or decryption.
         - result: Placeholder value to hold the result of the encryption or
         decryption. This does not usually come in with the request.
-
     """
+
     def __init__(self):
         self.encryption_state = None
         self.data_input = None
@@ -87,7 +89,7 @@ def setup_request_commandline() -> Request:
         quit()
 
 
-class Crypto:
+class BaseCryptoHandler(abc.ABC):
 
     def __init__(self):
         self.encryption_start_handler = None
@@ -96,9 +98,66 @@ class Crypto:
     def execute_request(self, request: Request):
         pass
 
+    @abc.abstractmethod
+    def handle_request(self, request: Request):
+        pass
+
+    # @abc.abstractmethod
+    # def handle_crypto(self, form: EnrolmentApplicationForm) -> (str, bool):
+    #     pass
+
+    def set_encryption_start_handler(self, handler):
+        self.encryption_start_handler = handler
+
+    def set_decryption_start_handler(self, handler):
+        self.decryption_start_handler = handler
+
+
+class EncryptHandler(BaseCryptoHandler):
+
+    def handle_request(self, request: Request):
+        string_encrypt = request.data_input.encode("utf-8")
+        # file_encrypt = request.input_file.encode("utf-8")
+        print("Encryption Request")
+        if request.data_input and request.input_file:
+            print("Data cannot be encrypted, cannot contain both")
+        if request.key and request.data_input:
+            print("Converting string to bytes")
+            print(string_encrypt)
+        # if not self.encryption_start_handler:
+        #     return "", True
+        # return self.encryption_start_handler.execute_request(request)
+        # else:
+        #     return "Data cannot be encrypted", False
+
+    # def encryption(self, string):
+    #     byte_string = string.encode("utf-8")
+    #     type(byte_string)
+    #     print(byte_string)
+
+
+class DecryptHandler(BaseCryptoHandler):
+
+    def handle_request(self, request: Request):
+        pass
+
+
+# class Crypto:
+#
+#     def __init__(self):
+#         self.encryption_start_handler = None
+#         self.decryption_start_handler = None
+#
+#     def execute_request(self, request: Request):
+#         pass
+
 
 def main(request: Request):
-    pass
+    test_str = "this is hard coded please delete"
+    test1 = EncryptHandler()
+    test1.handle_request(request)
+    # test1.encryption(test_str)
+
 
 
 if __name__ == '__main__':
