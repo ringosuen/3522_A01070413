@@ -86,11 +86,6 @@ def setup_request_commandline() -> Request:
         print(f"Error! Could not read arguments.\n{e}")
         quit()
 
-class BaseCryptoHandler:
-
-    def __init__(self, next_handler=None):
-        self.next_handler = next_handler
-
 
 class Crypto:
 
