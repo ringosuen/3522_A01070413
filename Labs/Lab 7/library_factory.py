@@ -195,6 +195,8 @@ class ItemFactory(abc.ABC):
         return item_data
 
 
+
+
 class BookFactory(ItemFactory):
     @staticmethod
     def generate_book() -> Item:
@@ -416,7 +418,7 @@ class Library:
         """
         item_count = self.catalogue.reduce_item_count(call_number)
         if item_count:
-            print("Checkout complete!")
+            print("Checkout done! Number of copies reduced.")
         else:
             print(f"Could not find item with call number {call_number}"
                   f". Checkout failed.")
@@ -442,7 +444,6 @@ class Library:
         user_input = None
         while user_input != 4:
             print("\nWelcome to the Library!")
-            print("-----------------------")
             print("1. Access Catalogue")
             print("2. Check Out an item")
             print("3. Return an item")
@@ -453,11 +454,11 @@ class Library:
                 self.access_catalogue()
             elif user_input == 2:
                 call_number = input("Enter the call number of the item"
-                                    " you wish to check out.")
+                                    " you want to check out.")
                 self.check_out(call_number)
             elif user_input == 3:
                 call_number = input("Enter the call number of the item"
-                                    " you wish to return.")
+                                    " you want to return.")
                 self.return_item(call_number)
             elif user_input == 4:
                 pass
