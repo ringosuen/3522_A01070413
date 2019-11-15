@@ -1,4 +1,4 @@
-Hi Rahul, I got the encryption methods working for both a data input
+Hi Rahul, I got the encryption method working for both a data input
 and data file. Data file reads an inputFile.txt that I made 
 and converts whatever is inside to an external file called 
 encryptedFile.txt. Decryption also works, and I got the encryptedFile.txt
