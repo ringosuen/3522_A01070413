@@ -94,10 +94,16 @@ class BaseCryptoHandler(abc.ABC):
 
     def __init__(self):
         self.encryption_start_handler = EncryptHandler
-        # self.decryption_start_handler = DecryptHandler()
+        self.decryption_start_handler = DecryptHandler
 
-    def execute_request(self, request: Request):
-        pass
+    # def execute_request(self, request: Request):
+    #     if request.encryption_state == CryptoMode.EN:
+    #         encrypttest1 = EncryptHandler()
+    #         encrypttest1.set_decryption_start_handler(request)
+    #     if request.encryption_state == CryptoMode.DE:
+    #         decrypttest2 = DecryptHandler()
+    #         decrypttest2.set_decryption_start_handler(request)
+    #         # decrypttest2.handle_request(request)
 
     @abc.abstractmethod
     def handle_request(self, request: Request):
@@ -122,54 +128,91 @@ class EncryptHandler(BaseCryptoHandler):
                 print("Converting data string to bytes")
                 key1 = DesKey(key0)
                 encoded_input = request.data_input.encode("utf-8")
-                request.output = key1.encrypt(encoded_input, padding=True)
-                print(request.output)
-                return request.output
+                request.result = key1.encrypt(encoded_input, padding=True)
+                print(request.result)
+                return request.result
             if request.key and request.input_file:
                 print("Converting string file to encrypted file")
-                with open(request.input_file, mode="r", encoding="utf-8") \
+                with open(request.input_file, mode="r") \
                         as encrypt_input_file:
                     key1 = DesKey(key0)
                     file_text = encrypt_input_file.readlines()
                     file_text1 = str(file_text).encode("utf-8")
-                    request.output = key1.encrypt(file_text1, padding=True)
-                with open("encryptedFile.txt", mode="w", encoding="utf-8") \
+                    request.result = key1.encrypt(file_text1, padding=True)
+                with open("encryptedFile.txt", mode="wb") \
                         as output_file:
-                    output_file.write(str(request.output))
+                    output_file.write(request.result)
         if request.data_input and request.input_file:
             print("Data cannot be encrypted, cannot contain both")
         else:
             return "Data cannot be encrypted", False
 
+
 class DecryptHandler(BaseCryptoHandler):
 
     def handle_request(self, request: Request):
-        string_decrypt = request.data_input.encode("utf-8")
-        print("Encryption Request")
-        if request.key and request.data_input:
-            print("Converting bytes to strings")
-            print(string_decrypt)
-        else:
-            return "Data cannot be decrypted", False
 
+        key0 = request.key.encode("utf-8")
 
-# class Crypto:
-#
-#     def __init__(self):
-#         self.encryption_start_handler = None
-#         self.decryption_start_handler = None
-#
-#     def execute_request(self, request: Request):
-#         pass
+        print("Decryption Request")
+
+        if request.output and request.data_input:
+            key1 = DesKey(key0)
+            encoded_input = request.data_input.encode("utf-8")
+            request.result = key1.encrypt(encoded_input, padding=True)
+            print(request.result)
+            print("========================")
+            print("Decoding the data byte:")
+            decoded_byte = key1.decrypt(request.result, padding=True)
+            decoded_string = decoded_byte.decode("utf-8")
+            print(decoded_byte)
+            print(decoded_string)
+        elif request.output:
+            with open(request.input_file, mode="rb") \
+                    as encrypt_input_file:
+                key1 = DesKey(key0)
+                file_text = encrypt_input_file.readlines()
+                print(file_text[0])
+                file_text1 = key1.decrypt(file_text[0])
+                print(file_text1)
+                decrypted_file = file_text1.decode("utf-8")
+                print(decrypted_file)
+            with open("decryptedFile.txt", mode="w") as output_file:
+                output_file.write(decrypted_file)
+                # request.result = key1.decrypt(file_text, padding=True)
+                # print(request.result)
+            # # with open(request.output, mode="r") as encrypted_file:
+            #     encrypted_file_content = encrypted_file.readlines()
+            #     encoded_file_content = str(encrypted_file_content).encode(
+            #         "utf-8")
+            #     print(encoded_file_content)
+            #     key0 = request.key.encode("utf-8")
+            #     key1 = DesKey(key0)
+            #     request.output = key1.decrypt(bytes(encoded_file_content))
+            #     print(request.output)
+            # else:
+            #     with open("encrypted_data.txt", mode="rb") as encrypted_file:
+            #         encrypted_file_content = encrypted_file.readlines()
+            #         encoded_file_content = str(encrypted_file_content).encode(
+            #             "utf-8")
+            #         print(encoded_file_content)
+            #         key0 = request.key.encode("utf-8")
+            #         key1 = DesKey(key0)
+            #         request.output = key1.decrypt(bytes(encoded_file_content))
+            # with open("decrypted_data.txt", mode="w", encoding="utf-8") \
+            #         as decrypted_data:
+            #     decrypted_data.write(str(request.output))
 
 
 def main(request: Request):
-    test_str = "this is hard coded please delete"
-    test1 = EncryptHandler()
-    test1.handle_request(request)
+    if request.encryption_state == CryptoMode.EN:
+        encrypttest1 = EncryptHandler()
+        encrypttest1.handle_request(request)
+    if request.encryption_state == CryptoMode.DE:
+        decrypttest2 = DecryptHandler()
+        decrypttest2.handle_request(request)
     # test2 = DecryptHandler()
     # test2.handle_request(request)
-    # test1.encryption(test_str)
 
 
 if __name__ == '__main__':
