@@ -165,7 +165,7 @@ class EncryptHandler(BaseCryptoHandler):
         if request.data_input and request.input_file:
             print("Data cannot be encrypted, cannot contain both")
         else:
-            return "Data cannot be encrypted", False
+            return "Data cannot be encrypted"
 
 
 class DecryptHandler(BaseCryptoHandler):
