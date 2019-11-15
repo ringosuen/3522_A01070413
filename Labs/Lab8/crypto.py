@@ -2,6 +2,7 @@ import des
 import argparse
 import abc
 import enum
+from des import DesKey
 import ast
 
 
@@ -92,8 +93,8 @@ def setup_request_commandline() -> Request:
 class BaseCryptoHandler(abc.ABC):
 
     def __init__(self):
-        self.encryption_start_handler = None
-        self.decryption_start_handler = None
+        self.encryption_start_handler = EncryptHandler
+        # self.decryption_start_handler = DecryptHandler()
 
     def execute_request(self, request: Request):
         pass
@@ -101,10 +102,6 @@ class BaseCryptoHandler(abc.ABC):
     @abc.abstractmethod
     def handle_request(self, request: Request):
         pass
-
-    # @abc.abstractmethod
-    # def handle_crypto(self, form: EnrolmentApplicationForm) -> (str, bool):
-    #     pass
 
     def set_encryption_start_handler(self, handler):
         self.encryption_start_handler = handler
@@ -116,20 +113,33 @@ class BaseCryptoHandler(abc.ABC):
 class EncryptHandler(BaseCryptoHandler):
 
     def handle_request(self, request: Request):
-        string_encrypt = request.data_input.encode("utf-8")
-        # file_encrypt = request.input_file.encode("utf-8")
         print("Encryption Request")
+
+        key0 = request.key.encode("utf-8")
+
+        if request.encryption_state == CryptoMode.EN:
+            if request.key and request.data_input:
+                print("Converting string to bytes")
+                key1 = DesKey(key0)
+                encoded_input = request.data_input.encode("utf-8")
+                request.output = key1.encrypt(encoded_input, padding=True)
+                print(request.output)
+                return request.output
+            if request.key and request.input_file:
+                with open(request.input_file, mode="r", encoding="utf-8") \
+                        as encrypt_input_file:
+                    key1 = DesKey(key0)
+                    file_text = encrypt_input_file.readlines()
+                    file_text1 = str(file_text).encode("utf-8")
+                    request.output = key1.encrypt(file_text1, padding=True)
+                with open("encryptedFile.txt", mode="w", encoding="utf-8") \
+                        as output_file:
+                    output_file.write(str(request.output))
+
         if request.data_input and request.input_file:
             print("Data cannot be encrypted, cannot contain both")
-        if request.key and request.data_input:
-            print("Converting string to bytes")
-            print(string_encrypt)
-        # if not self.encryption_start_handler:
-        #     return "", True
-        # return self.encryption_start_handler.execute_request(request)
-        # else:
-        #     return "Data cannot be encrypted", False
-
+        else:
+            return "Data cannot be encrypted", False
     # def encryption(self, string):
     #     byte_string = string.encode("utf-8")
     #     type(byte_string)
@@ -139,7 +149,13 @@ class EncryptHandler(BaseCryptoHandler):
 class DecryptHandler(BaseCryptoHandler):
 
     def handle_request(self, request: Request):
-        pass
+        string_decrypt = request.data_input.encode("utf-8")
+        print("Encryption Request")
+        if request.key and request.data_input:
+            print("Converting bytes to strings")
+            print(string_decrypt)
+        else:
+            return "Data cannot be decrypted", False
 
 
 # class Crypto:
@@ -156,8 +172,9 @@ def main(request: Request):
     test_str = "this is hard coded please delete"
     test1 = EncryptHandler()
     test1.handle_request(request)
+    # test2 = DecryptHandler()
+    # test2.handle_request(request)
     # test1.encryption(test_str)
-
 
 
 if __name__ == '__main__':
