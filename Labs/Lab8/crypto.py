@@ -119,13 +119,14 @@ class EncryptHandler(BaseCryptoHandler):
 
         if request.encryption_state == CryptoMode.EN:
             if request.key and request.data_input:
-                print("Converting string to bytes")
+                print("Converting data string to bytes")
                 key1 = DesKey(key0)
                 encoded_input = request.data_input.encode("utf-8")
                 request.output = key1.encrypt(encoded_input, padding=True)
                 print(request.output)
                 return request.output
             if request.key and request.input_file:
+                print("Converting string file to encrypted file")
                 with open(request.input_file, mode="r", encoding="utf-8") \
                         as encrypt_input_file:
                     key1 = DesKey(key0)
@@ -135,16 +136,10 @@ class EncryptHandler(BaseCryptoHandler):
                 with open("encryptedFile.txt", mode="w", encoding="utf-8") \
                         as output_file:
                     output_file.write(str(request.output))
-
         if request.data_input and request.input_file:
             print("Data cannot be encrypted, cannot contain both")
         else:
             return "Data cannot be encrypted", False
-    # def encryption(self, string):
-    #     byte_string = string.encode("utf-8")
-    #     type(byte_string)
-    #     print(byte_string)
-
 
 class DecryptHandler(BaseCryptoHandler):
 
