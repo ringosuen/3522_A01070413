@@ -1,9 +1,13 @@
-import des
+"""
+A chain of responsibility lab. Runs through the behaviour of the pattern by
+validating checks before it either decrypts or encrypts something. Run
+through the command line.
+"""
+
 import argparse
 import abc
 import enum
 from des import DesKey
-import ast
 
 
 class CryptoMode(enum.Enum):
@@ -91,6 +95,9 @@ def setup_request_commandline() -> Request:
 
 
 class BaseCryptoHandler(abc.ABC):
+    """
+    Baseclass for all handlers that handle encryption and decryption.
+    """
 
     def __init__(self):
         self.encryption_start_handler = EncryptHandler
@@ -107,6 +114,10 @@ class BaseCryptoHandler(abc.ABC):
 
     @abc.abstractmethod
     def handle_request(self, request: Request):
+        """
+        Each handler would have a specific implementation of either encryption
+        or decryption.
+        """
         pass
 
     def set_encryption_start_handler(self, handler):
@@ -117,8 +128,17 @@ class BaseCryptoHandler(abc.ABC):
 
 
 class EncryptHandler(BaseCryptoHandler):
+    """
+     This handler ensures that the encryption is done properly. Whether it
+     is a file or a string data.
+     """
 
     def handle_request(self, request: Request):
+        """
+        Checks to see if the key exist. If there is data_input then it
+        will convert it to Bytes, encrypting it.
+        :param request : Request
+        """
         print("Encryption Request")
 
         key0 = request.key.encode("utf-8")
@@ -149,8 +169,16 @@ class EncryptHandler(BaseCryptoHandler):
 
 
 class DecryptHandler(BaseCryptoHandler):
+    """
+     This handler ensures that the decryption is done properly. Whether it
+     is a file or a string data.
+     """
 
     def handle_request(self, request: Request):
+        """
+        Checks to see if there is a encryptedFile to decrypt. Or it also
+        decrypts a byte back to a string.
+        """
 
         key0 = request.key.encode("utf-8")
 
@@ -179,40 +207,18 @@ class DecryptHandler(BaseCryptoHandler):
                 print(decrypted_file)
             with open("decryptedFile.txt", mode="w") as output_file:
                 output_file.write(decrypted_file)
-                # request.result = key1.decrypt(file_text, padding=True)
-                # print(request.result)
-            # # with open(request.output, mode="r") as encrypted_file:
-            #     encrypted_file_content = encrypted_file.readlines()
-            #     encoded_file_content = str(encrypted_file_content).encode(
-            #         "utf-8")
-            #     print(encoded_file_content)
-            #     key0 = request.key.encode("utf-8")
-            #     key1 = DesKey(key0)
-            #     request.output = key1.decrypt(bytes(encoded_file_content))
-            #     print(request.output)
-            # else:
-            #     with open("encrypted_data.txt", mode="rb") as encrypted_file:
-            #         encrypted_file_content = encrypted_file.readlines()
-            #         encoded_file_content = str(encrypted_file_content).encode(
-            #             "utf-8")
-            #         print(encoded_file_content)
-            #         key0 = request.key.encode("utf-8")
-            #         key1 = DesKey(key0)
-            #         request.output = key1.decrypt(bytes(encoded_file_content))
-            # with open("decrypted_data.txt", mode="w", encoding="utf-8") \
-            #         as decrypted_data:
-            #     decrypted_data.write(str(request.output))
 
 
 def main(request: Request):
+    """
+    Checks whether the mode is EN or DE.
+    """
     if request.encryption_state == CryptoMode.EN:
         encrypttest1 = EncryptHandler()
         encrypttest1.handle_request(request)
     if request.encryption_state == CryptoMode.DE:
         decrypttest2 = DecryptHandler()
         decrypttest2.handle_request(request)
-    # test2 = DecryptHandler()
-    # test2.handle_request(request)
 
 
 if __name__ == '__main__':
