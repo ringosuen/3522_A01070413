@@ -141,38 +141,45 @@ class ISSDataRequest:
 
     @classmethod
     def get_overhead_pass(cls, city: City) -> CityOverheadTimes:
+
         parameters = {
             "lat": city.lat,
             "lon": city.lng
         }
         response = requests.get("http://api.open-notify.org/iss-pass.json",
                                 params=parameters)
-        print(type(response))
+        # print(type(response))
         # Write request code here!
         # DEBUG:
         data = response.json()
+
         list_of_overhead_times = data['response']
 
         city_test = CityOverheadTimes(city, *list_of_overhead_times)
 
-        jprint(list_of_overhead_times)
-        print(response.status_code)
-        print(response)
-        jprint(data)
+        # jprint(list_of_overhead_times)
+        # print(response.status_code)
+        # print(response)
+        # jprint(data)
+        # print(city_test)
 
         return city_test
 
 
 def main():
-    # cities = CityDatabase("city_locations_test.xlsx")
+    cities = CityDatabase("city_locations_test.xlsx")
+    test_list = cities.city_db
+    for item in test_list:
+        print(ISSDataRequest.get_overhead_pass(item))
+
     # for item in cities.city_db:
     #     print(item)
+    #
+    # test_object = City("Toronto", 10, 20)
 
-    test_object = City("Toronto", 10, 20)
 
-    overhead_times = ISSDataRequest.get_overhead_pass(test_object)
-    print(overhead_times)
-
+    # overhead_times = ISSDataRequest.get_overhead_pass(test_object)
+    # print(overhead_times)
 
 
 if __name__ == '__main__':
