@@ -373,6 +373,10 @@ class GarmentMaker:
         for i in range(3):
             self.socks_unisex.append(
                 self.populate_factory.create_socks_unisex())
+    #
+    def garment_type(self):
+        for shirtm in self.shirt_men:
+            print(f"{shirtm.textile}")
 
 
 def jprint(obj):
@@ -415,8 +419,12 @@ class OrderProcessor:
         self.garment_db = [Order(row[1]["Date"], row[1]["Order Number"],
                                  row[1]["Brand"])
                            for row in df.iterrows()]
-        self.lulubrand = (row[1]["Brand"] for row in df.iterrows() if row[1]["Brand"] == "Lululime")
-        print(*self.lulubrand)
+        self.lulubrand = ((row[1]["Date"], row[1]["Garment"], row[1]["Brand"]) for row in df.iterrows() if row[1]["Brand"] == "Lululime")
+        self.lulubrand = LululimeFactory()
+        print(self.lulubrand)
+        # for lulu in self.lulubrand:
+        #     print(lulu)
+        # print(*self.lulubrand)
 
     def openOrderSheet(self) -> BrandFactory:
         pass
@@ -442,14 +450,24 @@ class Order:
 
 def main():
     data = OrderProcessor('COMP_3522_A4_orders.xlsx')
+    lulu_list = data.lulubrand
     data_list = data.garment_db
     for item in data_list:
         print(item)
+    # for item in lulu_list:
+    #     print(item)
+
 
     # print(pd.read_excel('COMP_3522_A4_orders.xlsx', index_col=5))
     lululime = LululimeFactory()
     pineapple_republic = PineappleRepublicFactory()
     nika = NikaFactory()
+    garment_maker = GarmentMaker(lulu_list)
+    garment_maker.garment_type()
+    # garment_maker2 = GarmentMaker(pineapple_republic)
+    print(garment_maker)
+    # print(garment_maker2)
+
 
     shirt = lululime.create_shirt_men(style="REDSHIRT",
                                       size=MenSize.S,
