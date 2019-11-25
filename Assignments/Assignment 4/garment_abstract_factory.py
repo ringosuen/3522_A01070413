@@ -8,6 +8,8 @@ import json
 
 import pandas
 import pandas as pd
+from pandas import ExcelWriter
+from pandas import ExcelFile
 
 
 class MenSize(enum.Enum):
@@ -72,7 +74,7 @@ class ShirtMenPineappleRepublic(ShirtMen):
     """
 
     def __init__(self, style: str, size: MenSize, colour: str, textile: str,
-                 ironing: bool, buttons: int):
+                 ironing: str, buttons: int):
         super().__init__(style, size, colour, textile)
         self.ironing = ironing
         self.buttons = buttons
@@ -143,7 +145,7 @@ class ShirtWomenPineappleRepublic(ShirtWomen):
     """
 
     def __init__(self, style: str, size: WomenSize, colour: str, textile: str,
-                 ironing: bool, buttons: int):
+                 ironing: str, buttons: int):
         super().__init__(style, size, colour, textile)
         self.ironing = ironing
         self.buttons = buttons
@@ -194,7 +196,7 @@ class SocksPairUnisexLuluLime(SockPairUnisex):
     """
 
     def __init__(self, style: str, size: SockSize, colour: str, textile: str,
-                 contains_silver: bool, contrasting_stripe: str):
+                 contains_silver: str, contrasting_stripe: str):
         super().__init__(style, size, colour, textile)
         self.contains_silver = contains_silver
         self.contrasting_stripe = contrasting_stripe
@@ -214,7 +216,7 @@ class SocksPairUnisexPineappleRepublic(SockPairUnisex):
     """
 
     def __init__(self, style: str, size: SockSize, colour: str, textile: str,
-                 require_drycleaning: bool):
+                 require_drycleaning: str):
         super().__init__(style, size, colour, textile)
         self.require_drycleaning = require_drycleaning
 
@@ -232,7 +234,7 @@ class SocksPairUnisexNika(SockPairUnisex):
     """
 
     def __init__(self, style: str, size: SockSize, colour: str, textile: str,
-                 articulated: bool, sock_length: str):
+                 articulated: str, sock_length: str):
         super().__init__(style, size, colour, textile)
         self.articulated = articulated
         self.sock_length = sock_length
@@ -417,11 +419,23 @@ class OrderProcessor:
         """
         #
         self.garment_db = [Order(row[1]["Date"], row[1]["Order Number"],
-                                 row[1]["Brand"])
-                           for row in df.iterrows()]
-        self.lulubrand = ((row[1]["Date"], row[1]["Garment"], row[1]["Brand"]) for row in df.iterrows() if row[1]["Brand"] == "Lululime")
-        self.lulubrand = LululimeFactory()
-        print(self.lulubrand)
+                                 row[1]["Brand"], row[1]["Garment"],
+                                 row[1]["Count"], row[1]["Style name"])
+                           for row in df.iterrows() if row[1]["Brand"] == "Lululime"]
+        test1 = self.garment_db[0].brand
+        print(test1)
+
+
+        lulu_order = ((row[1]["Date"], row[1]["Garment"], row[1]["Brand"], row[1]["Garment"])
+                      for row in df.iterrows() if row[1]["Brand"] == "Lululime")
+        for item in lulu_order:
+            print(item)
+
+        lulu_order = LululimeFactory()
+        # test = GarmentMaker(lulu_order)
+        # print(test)
+
+
         # for lulu in self.lulubrand:
         #     print(lulu)
         # print(*self.lulubrand)
@@ -439,21 +453,36 @@ class OrderProcessor:
 
 class Order:
 
-    def __init__(self, date: str, ord_num: int, brand: str):
+    def __init__(self, date: str, ord_num: int, brand: str, garment: str,
+                 count: str, style: str):
         self.date = date
         self.ord_num = ord_num
         self.brand = brand
+        self.garment = garment
+        self.count = count
+        self.style = style
+
 
     def __str__(self):
-        return f"Date: {self.date}, Ord Num: {self.ord_num}, Brand: {self.brand}"
-
-
+        return f"Date: {self.date}, Ord Num: {self.ord_num}, " \
+               f"Brand: {self.brand}, " \
+               f"Garment: {self.garment}, " \
+               f"Count: {self.count}, " \
+               f"Style: {self.style} "
 def main():
+    df = pd.read_excel('COMP_3522_A4_orders.xlsx', sheet_name=0)
+
+    style = df['Style name']
+
     data = OrderProcessor('COMP_3522_A4_orders.xlsx')
-    lulu_list = data.lulubrand
+    # lulu_list = data.lulubrand
     data_list = data.garment_db
     for item in data_list:
         print(item)
+    # data_list = LululimeFactory()
+    # print(data_list)
+    # garment = GarmentMaker(data_list)
+    # print(garment)
     # for item in lulu_list:
     #     print(item)
 
@@ -462,22 +491,39 @@ def main():
     lululime = LululimeFactory()
     pineapple_republic = PineappleRepublicFactory()
     nika = NikaFactory()
-    garment_maker = GarmentMaker(lulu_list)
-    garment_maker.garment_type()
+    # garment_maker = GarmentMaker(data_list)
+    # garment_maker.garment_type()
     # garment_maker2 = GarmentMaker(pineapple_republic)
-    print(garment_maker)
+    # print(garment_maker)
     # print(garment_maker2)
 
 
-    shirt = lululime.create_shirt_men(style="REDSHIRT",
+    shirt = lululime.create_shirt_men(style=style,
                                       size=MenSize.S,
                                       colour="BLACK",
                                       textile="COTTON",
                                       design="Yoga",
                                       hidden_zippers=5)
+    # shirt1 = data_list.create_shirt_men(style="hi",
+    #                                   size=MenSize.S,
+    #                                   colour="BLACK",
+    #                                   textile="COTTON",
+    #                                   design="Yoga",
+    #                                   hidden_zippers=5)
+    # print(shirt)
+    # print(type(shirt))
+    # print((shirt1))
 
-    print(shirt)
-    print(type(shirt))
+
+
+    df = pd.read_excel('COMP_3522_A4_orders.xlsx', sheet_name=0)
+
+    lulu = df['Brand']
+    # if lulu == "Lululime":
+    # print(lulu)
+    # sepalLength = df['Sepal length']
+    # petalLength = df['Petal length']
+
 
 
 if __name__ == '__main__':
