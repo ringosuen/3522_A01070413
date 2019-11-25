@@ -9,4 +9,4 @@ We would need to make another Factory. This time a GoosieFactory that extends fr
 Question 2: 
 For each factory we would make a new additional method called create_activewear_women(). We then would add a new interface called
 ActivewearWomen that has the attributes style, size, textile and colour. We would then make a LululimeActivewearWomen class that extends ActivewearWomen, a PineappleRepublicActivewearWomen class extending ActivewearWomen and a NikaActivewearWomen class extending ActiveWomen. 
-These 3 classes would make the corresponding Activewear brand. 
+These 3 classes would make the corresponding Women's Activewear based on the brand. 
