@@ -85,7 +85,6 @@ class RequestApi:
         :param id_: an int
         :return: dict, json response
         """
-        # url = "https://swapi.co/api/people/{}/"
         url = "https://pokeapi.co/api/v2/move/{}"
 
         async with aiohttp.ClientSession() as session:
@@ -112,30 +111,7 @@ class RequestApi:
             return responses
 
 
-# def create_move_object(move: str):
-#     move_object = asyncio.run(process_single_request(move))
-#     dump = json.dumps(move_object)
-#     move = json.loads(dump)
-#
-#     move_name = move["name"]
-#     move_id = move["id"]
-#     move_gen = move["generation"]
-#     move_accuracy = move["accuracy"]
-#     move_pp = move["pp"]
-#     move_power = move["power"]
-#     move_type = move["type"]
-#     move_damage_class = move["damage_class"]
-#     move_short_effect = move["effect_entries"][0]["short_effect"]
-#
-#     final_object = Moves(move_name, move_id, move_gen, move_accuracy, move_pp,
-#                          move_power, move_type, move_damage_class,
-#                          move_short_effect)
-#
-#     return final_object
-
-
 def main():
-    # move_obj = Moves()
     move_list = ["pound", "flamethrower", "earthquake"]
     async_move = \
         asyncio.run(RequestApi.process_multiple_move_requests(move_list))
@@ -156,6 +132,9 @@ def main():
         print(move_name, move_id, move_gen, move_accuracy,
               move_pp, move_power, move_type, move_damage_class,
               move_short_effect)
+
+    flamethrower = Moves.create_move_object("32")
+    print(flamethrower)
 
     # pound = asyncio.run(process_single_request("hydro-pump"))
     # dump = json.dumps(pound)
@@ -185,9 +164,6 @@ def main():
     #       f"Move Type: {move_type}\n"
     #       f"Special or Physical: {move_damage_class}\n"
     #       f"Short Effect: {move_short_effect}\n")
-
-    flamethrower = Moves.create_move_object("flamethrower")
-    print(flamethrower)
 
 
 if __name__ == '__main__':
