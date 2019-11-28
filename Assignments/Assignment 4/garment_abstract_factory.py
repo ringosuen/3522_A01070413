@@ -375,10 +375,10 @@ class GarmentMaker:
         for i in range(3):
             self.socks_unisex.append(
                 self.populate_factory.create_socks_unisex())
-    #
-    def garment_type(self):
+
+    def make_lulu(self):
         for shirtm in self.shirt_men:
-            print(f"{shirtm.textile}")
+            print(f"{shirtm.style}")
 
 
 def jprint(obj):
@@ -418,23 +418,28 @@ class OrderProcessor:
         have made the assumption that each city has a unique name.
         """
         #
-        self.garment_db = [Order(row[1]["Date"], row[1]["Order Number"],
+        self.lulu = [Order(row[1]["Date"], row[1]["Order Number"],
                                  row[1]["Brand"], row[1]["Garment"],
                                  row[1]["Count"], row[1]["Style name"])
-                           for row in df.iterrows() if row[1]["Brand"] == "Lululime"]
-        test1 = self.garment_db[0].brand
-        print(test1)
+                           for row in df.iterrows()
+                           if row[1]["Brand"] == "Lululime"]
+        self.lulu = LululimeFactory()
+        GarmentMaker(self.lulu)
+        # brand = self.lulu[0].brand
+        # garment = self.lulu[0].garment
+        # print(brand)
+        # print(garment)
 
-
-        lulu_order = ((row[1]["Date"], row[1]["Garment"], row[1]["Brand"], row[1]["Garment"])
-                      for row in df.iterrows() if row[1]["Brand"] == "Lululime")
+        lulu_order = ((row[1]["Date"], row[1]["Garment"],
+                       row[1]["Brand"], row[1]["Garment"])
+                      for row in df.iterrows() if
+                      row[1]["Brand"] == "Lululime")
         for item in lulu_order:
             print(item)
 
         lulu_order = LululimeFactory()
         # test = GarmentMaker(lulu_order)
         # print(test)
-
 
         # for lulu in self.lulubrand:
         #     print(lulu)
@@ -462,13 +467,14 @@ class Order:
         self.count = count
         self.style = style
 
-
     def __str__(self):
         return f"Date: {self.date}, Ord Num: {self.ord_num}, " \
                f"Brand: {self.brand}, " \
                f"Garment: {self.garment}, " \
                f"Count: {self.count}, " \
                f"Style: {self.style} "
+
+
 def main():
     df = pd.read_excel('COMP_3522_A4_orders.xlsx', sheet_name=0)
 
@@ -476,8 +482,8 @@ def main():
 
     data = OrderProcessor('COMP_3522_A4_orders.xlsx')
     # lulu_list = data.lulubrand
-    data_list = data.garment_db
-    for item in data_list:
+    lulu_list = data.lulu
+    for item in lulu_list:
         print(item)
     # data_list = LululimeFactory()
     # print(data_list)
@@ -485,7 +491,6 @@ def main():
     # print(garment)
     # for item in lulu_list:
     #     print(item)
-
 
     # print(pd.read_excel('COMP_3522_A4_orders.xlsx', index_col=5))
     lululime = LululimeFactory()
@@ -496,7 +501,6 @@ def main():
     # garment_maker2 = GarmentMaker(pineapple_republic)
     # print(garment_maker)
     # print(garment_maker2)
-
 
     shirt = lululime.create_shirt_men(style=style,
                                       size=MenSize.S,
@@ -514,8 +518,6 @@ def main():
     # print(type(shirt))
     # print((shirt1))
 
-
-
     df = pd.read_excel('COMP_3522_A4_orders.xlsx', sheet_name=0)
 
     lulu = df['Brand']
@@ -524,6 +526,9 @@ def main():
     # sepalLength = df['Sepal length']
     # petalLength = df['Petal length']
 
+    test_shirt = ShirtMenLulu("a", MenSize.s, "c", "d", "e", 2)
+
+    # GarmentMaker()
 
 
 if __name__ == '__main__':
