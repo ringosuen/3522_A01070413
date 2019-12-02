@@ -133,7 +133,7 @@ def main():
               move_pp, move_power, move_type, move_damage_class,
               move_short_effect)
 
-    flamethrower = Moves.create_move_object("32")
+    flamethrower = Moves.create_move_object("flamethrower")
     print(flamethrower)
 
     # pound = asyncio.run(process_single_request("hydro-pump"))
