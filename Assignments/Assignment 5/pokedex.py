@@ -15,8 +15,8 @@ def setup_request_commandline():
                                         "or moves, you want to see")
     parser.add_argument("info", help="enter either the pokemon, ability, "
                                      "or move")
-    parser.add_argument("-e", "--expanded", action="store_true", help="View "
-                                                                      "expanded list of certain stats")
+    parser.add_argument("-e", "--expanded", action="store_true",
+                        help="View expanded list of certain stats")
     parser.add_argument("-o", "--output", help="Default out put is console.")
     try:
         args = parser.parse_args()

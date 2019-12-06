@@ -4,6 +4,108 @@ import ssl
 import json
 
 
+class PokemonMoves:
+    def __init__(self, move_name: list, level_learnt: list):
+        self.move_name = move_name
+        self.level_learnt = level_learnt
+
+
+    def __str__(self):
+
+        dictionary = list(zip(self.move_name, self.level_learnt))
+        for a, b in dictionary:
+            return a
+
+
+
+class Pokemon:
+    """
+    stats, abilities, moves can be expanded for further information
+    """
+
+    def __init__(self, name: str, id: int, height: int, weight: int,
+                 stats: dict, types: list, abilities: list, moves: list):
+        self.name = name
+        self.id_ = id
+        self.height = height
+        self.weight = weight
+        self.stats = stats
+        self.types = types
+        self.abilities = abilities
+        self.moves = moves
+
+    def __str__(self):
+        return f"\nPokemon Name: {self.name.title()}\n" \
+               f"Pokemon ID: {self.id_}\n" \
+               f"Pokemon Height: {self.height} decimeters\n" \
+               f"Pokemon Weight: {self.weight} hectograms\n" \
+               f"Pokemon Stat: {self.stats}\n" \
+               f"Pokemon Type: {self.types}\n" \
+               f"Pokemon Abilities: {self.abilities}\n" \
+               f"Pokemon Move & Level Learnt: {self.moves}\n"
+    @classmethod
+    def get_move_url(cls, pokemon_name : str):
+        pokemon_object = \
+            asyncio.run(
+                RequestApi.process_single_pokemon_request(pokemon_name))
+        pokemon_dump = json.dumps(pokemon_object)
+        pokemon = json.loads(pokemon_dump)
+
+        ability_url = [item["ability"]["url"] for item in pokemon ["abilities"]]
+        print(ability_url)
+
+        return ability_url
+
+
+    @classmethod
+    def create_pokemon_object(cls, pokemon_name_: str):
+        pokemon_object = \
+            asyncio.run(
+                RequestApi.process_single_pokemon_request(pokemon_name_))
+        pokemon_dump = json.dumps(pokemon_object)
+        pokemon = json.loads(pokemon_dump)
+
+        pokemon_name = pokemon["name"]
+        pokemon_id = pokemon["id"]
+        pokemon_height = pokemon["height"]
+        pokemon_weight = pokemon["weight"]
+        stat_name = [item["stat"]["name"] for item in pokemon["stats"]]
+        base_stat = [item["base_stat"] for item in pokemon["stats"]]
+        pokemon_stats = dict(zip(stat_name, base_stat))
+        pokemon_type = [item["type"]["name"] for item in pokemon["types"]]
+        pokemon_abilities = [item["ability"]["name"] for item in
+                             pokemon["abilities"]]
+        # pokemon_moves = [item["move"]["name"] for item in pokemon["moves"]]
+        # for item1 in pokemon["moves"]:
+        #     level = item1["version_group_details"][0]["level_learned_at"]
+        #     move = item1["move"]["name"]
+        #     p1 = PokemonMoves(move, level)
+        #     print(f"{move}, learnt at {level}")
+
+        move = [item1["move"]["name"] for item1 in pokemon["moves"]]
+        level = [item1["version_group_details"][0]["level_learned_at"] for
+                 item1 in pokemon["moves"]]
+        # print(move, level)
+        moves = list(zip(move, level))
+        # for a,b in moves:
+        #     print(a,b)
+        pokemon_moves = PokemonMoves(move, level)
+
+        ability_url = [item["ability"]["url"] for item in pokemon ["abilities"]]
+        print(ability_url)
+
+        final_ability_object = Pokemon(pokemon_name,
+                                       pokemon_id,
+                                       pokemon_height,
+                                       pokemon_weight,
+                                       pokemon_stats,
+                                       pokemon_type,
+                                       pokemon_abilities,
+                                       moves)
+
+        return final_ability_object, ability_url
+
+
 class Ability:
     def __init__(self, name: str, id: int, generation: str, effect: str,
                  short_effect: str, pokemon: str):
@@ -18,9 +120,9 @@ class Ability:
         return f"\nAbility Name: {self.name.title()}\n" \
                f"Ability ID: {self.id_}\n" \
                f"Ability Generation: {self.gen}\n" \
-               f"Long Effect: \n{self.effect}\n\n" \
-               f"Short Effect: {self.short_effect}\n\n" \
-               f"Pokemon that has this ability " \
+               f"Long Effect: {self.effect}\n" \
+               f"\n\nShort Effect: {self.short_effect}\n" \
+               f"\nPokemon that has this ability " \
                f"listed below:\n-{self.pokemon.title()}\n"
 
     @classmethod
@@ -37,7 +139,7 @@ class Ability:
         ability_long_effect = ability["effect_entries"][0]["effect"]
         ability_short_effect = ability["effect_entries"][0]["short_effect"]
         ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
-                           ability["pokemon"]])
+                                      ability["pokemon"]])
 
         final_ability_object = Ability(ability_name, ability_id, ability_gen,
                                        ability_long_effect,
@@ -121,6 +223,22 @@ class RequestApi:
         return json_dict
 
     @classmethod
+    async def process_single_pokemon_request(cls, id_) -> dict:
+        """
+        This function depicts the use of await to showcase how one async
+        coroutine can await another async coroutine
+        :param id_: an int
+        :return: dict, json response
+        """
+        url = "https://pokeapi.co/api/v2/pokemon/{}"
+
+        async with aiohttp.ClientSession() as session:
+            response = await RequestApi.get_data(id_, url, session)
+
+            # print(response)
+            return response
+
+    @classmethod
     async def process_single_ability_request(cls, id_) -> dict:
         """
         This function depicts the use of await to showcase how one async
@@ -169,34 +287,121 @@ class RequestApi:
             #     print(response)
             return responses
 
+    @classmethod
+    async def process_multiple_ability_requests(cls, requests: list) -> list:
+        """
+        This function depicts the use of asyncio.gather to run multiple
+        async coroutines concurrently.
+        :param requests: a list of int's
+        :return: list of dict, collection of response data from the endpoint.
+        """
+        url = "https://pokeapi.co/api/v2/ability/{}"
+        async with aiohttp.ClientSession() as session:
+            async_coroutines = [RequestApi.get_data(id_, url, session)
+                                for id_ in requests]
+            responses = await asyncio.gather(*async_coroutines)
+            # for response in responses:
+            #     print(response)
+            return responses
+
+    @classmethod
+    async def process_multiple_pokemon_requests(cls, requests: list) -> list:
+        """
+        This function depicts the use of asyncio.gather to run multiple
+        async coroutines concurrently.
+        :param requests: a list of int's
+        :return: list of dict, collection of response data from the endpoint.
+        """
+        url = "https://pokeapi.co/api/v2/pokemon/{}"
+        async with aiohttp.ClientSession() as session:
+            async_coroutines = [RequestApi.get_data(id_, url, session)
+                                for id_ in requests]
+            responses = await asyncio.gather(*async_coroutines)
+            # for response in responses:
+            #     print(response)
+            return responses
+
+
+    @classmethod
+    async def expanded_process_multiple_pokemon_requests(cls, requests: list) -> list:
+        """
+        This function depicts the use of asyncio.gather to run multiple
+        async coroutines concurrently.
+        :param requests: a list of int's
+        :return: list of dict, collection of response data from the endpoint.
+        """
+        url = "{}"
+        async with aiohttp.ClientSession() as session:
+            async_coroutines = [RequestApi.get_data(id_, url, session)
+                                for id_ in requests]
+            responses = await asyncio.gather(*async_coroutines)
+            for response in responses:
+                print(response)
+            return responses
+
+
 
 def main():
+    # ditto = Pokemon.get_move_url("vileplume")
+    # print(ditto)
     move_list = ["pound", "flamethrower", "earthquake"]
+    # url_list = ['https://pokeapi.co/api/v2/ability/27/', 'https://pokeapi.co/api/v2/ability/34/']
+    ability_Vile = Pokemon.create_pokemon_object("vileplume")
+    url_list = ability_Vile[1]
     async_move = \
         asyncio.run(RequestApi.process_multiple_move_requests(move_list))
+    async_ability_expanded = \
+        asyncio.run(RequestApi.expanded_process_multiple_pokemon_requests(url_list))
     string_convert = json.dumps(async_move)
-    print(string_convert)
+    ability_expanded_dump = json.dumps(async_ability_expanded)
+    # print(string_convert)
     moves_convert_json = json.loads(string_convert)
+    ability_expanded_query = json.loads(ability_expanded_dump)
+    print("\nHERE'S THE EXPANDED ABILITY FROM ABOVE, SEE BELOW:")
+    for ability in ability_expanded_query:
+        ability_name = ability["name"]
+        ability_id = ability["id"]
+        ability_gen = ability["generation"]["name"]
+        ability_long_effect = ability["effect_entries"][0]["effect"]
+        ability_short_effect = ability["effect_entries"][0]["short_effect"]
+        ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
+                                      ability["pokemon"]])
+        # print(ability_name, ability_id, ability_gen,ability_long_effect, ability_short_effect, ability_pokemon)
+        final_ability_object = Ability(ability_name, ability_id, ability_gen,
+                                       ability_long_effect,
+                                       ability_short_effect,
+                                       ability_pokemon)
+        print(final_ability_object)
+
     print("\n")
-    for move in moves_convert_json:
-        move_name = move["name"]
-        move_id = move["id"]
-        move_gen = move["generation"]
-        move_accuracy = move["accuracy"]
-        move_pp = move["pp"]
-        move_power = move["power"]
-        move_type = move["type"]
-        move_damage_class = move["damage_class"]
-        move_short_effect = move["effect_entries"][0]["short_effect"]
-        print(move_name, move_id, move_gen, move_accuracy,
-              move_pp, move_power, move_type, move_damage_class,
-              move_short_effect)
+    # for move in moves_convert_json:
+    #     move_name = move["name"]
+    #     move_id = move["id"]
+    #     move_gen = move["generation"]["name"]
+    #     move_accuracy = move["accuracy"]
+    #     move_pp = move["pp"]
+    #     move_power = move["power"]
+    #     move_type = move["type"]["name"]
+    #     move_damage_class = move["damage_class"]["name"]
+    #     move_short_effect = move["effect_entries"][0]["short_effect"]
+    #     # print(move_name, move_id, move_gen, move_accuracy,
+    #     #       move_pp, move_power, move_type, move_damage_class,
+    #     #       move_short_effect)
+    #     final_object = Moves(move_name, move_id, move_gen, move_accuracy,
+    #                          move_pp,
+    #                          move_power, move_type, move_damage_class,
+    #                          move_short_effect)
+    #     print(final_object)
 
-    flamethrower = Moves.create_move_object("flamethrower")
-    print(flamethrower)
 
-    intimidate = Ability.create_ability_object("drizzle")
-    print(intimidate)
+    # flamethrower = Moves.create_move_object("flamethrower")
+    # print(flamethrower)
+    #
+    # intimidate = Ability.create_ability_object("1")
+    # print(intimidate)
+    #
+    # ditto = Pokemon.create_pokemon_object("vileplume")
+    # print(ditto[0])
 
 
 if __name__ == '__main__':
