@@ -84,6 +84,64 @@ class Pokemon:
 
         return final_ability_object, ability_url
 
+    @classmethod
+    def create_multiple_pokemon_objects(cls, pokemon_name: list):
+        request = pokedex.setup_request_commandline()
+        async_move = \
+            asyncio.run(
+                RequestApi.process_multiple_pokemon_requests(pokemon_name))
+        string_convert = json.dumps(async_move)
+        pokemon_convert_json = json.loads(string_convert)
+
+        print("\n")
+        for pokemon in pokemon_convert_json:
+            pokemon_name = pokemon["name"]
+            pokemon_id = pokemon["id"]
+            pokemon_height = pokemon["height"]
+            pokemon_weight = pokemon["weight"]
+            stat_name = [item["stat"]["name"] for item in pokemon["stats"]]
+            base_stat = [item["base_stat"] for item in pokemon["stats"]]
+
+            pokemon_stats = list(zip(stat_name, base_stat))
+            pokemon_type = [item["type"]["name"] for item in pokemon["types"]]
+            pokemon_abilities = [item["ability"]["name"] for item in
+                                 pokemon["abilities"]]
+
+            move = [item1["move"]["name"] for item1 in pokemon["moves"]]
+            level = [item1["version_group_details"][0]["level_learned_at"] for
+                     item1 in pokemon["moves"]]
+            moves = list(zip(move, level))
+
+            final_pokemon_object = Pokemon(pokemon_name,
+                                           pokemon_id,
+                                           pokemon_height,
+                                           pokemon_weight,
+                                           pokemon_stats,
+                                           pokemon_type,
+                                           pokemon_abilities,
+                                           moves)
+            if request[0].lower() == "pokemon" and request[3] is None:
+                print(final_pokemon_object)
+                print(f"{final_pokemon_object.name.title()} Stats:")
+                for stats in final_pokemon_object.stats:
+                    print(stats)
+                print(f"\n{final_pokemon_object.name.title()} "
+                      f"Moves and Level Learnt:")
+                for move_, level in final_pokemon_object.moves:
+                    print(f"{move_} learnt at {level}")
+            if request[0].lower() == "pokemon" and request[3] is not None:
+                with open(request[3], mode="a") \
+                        as output_file:
+                    output_file.write("\n")
+                    output_file.write(str(final_pokemon_object))
+                    output_file.write("Stats:")
+                    for stats in final_pokemon_object.stats:
+                        output_file.write(str(stats))
+                    output_file.write("\nMoves and Level Learnt:")
+                    for move_, level in final_pokemon_object.moves:
+                        output_file.write("\n-" + str(move_) + " learnt at "
+                                          + str(level))
+
 
 class Ability:
     def __init__(self, name: str, id: int, generation: str, effect: str,
@@ -126,6 +184,36 @@ class Ability:
                                        ability_pokemon)
 
         return final_ability_object
+
+    @classmethod
+    def create_multiple_ability_objects(cls, ability_name_: list):
+        request = pokedex.setup_request_commandline()
+        async_move = \
+            asyncio.run(RequestApi.process_multiple_ability_requests(ability_name_))
+        string_convert = json.dumps(async_move)
+        ability_convert_json = json.loads(string_convert)
+
+        print("\n")
+        for ability in ability_convert_json:
+            ability_name = ability["name"]
+            ability_id = ability["id"]
+            ability_gen = ability["generation"]["name"]
+            ability_long_effect = ability["effect_entries"][0]["effect"]
+            ability_short_effect = ability["effect_entries"][0]["short_effect"]
+            ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
+                                          ability["pokemon"]])
+
+            final_ability_object = Ability(ability_name, ability_id,
+                                           ability_gen,
+                                           ability_long_effect,
+                                           ability_short_effect,
+                                           ability_pokemon)
+            if request[0].lower() == "ability" and request[3] is None:
+                print(final_ability_object)
+            if request[0].lower() == "ability" and request[3] is not None:
+                with open(request[3], mode="a") \
+                        as output_file:
+                    output_file.write(str(final_ability_object))
 
 
 class Moves:
@@ -177,67 +265,6 @@ class Moves:
                              move_short_effect)
 
         return final_object
-
-    @classmethod
-    def create_multiple_pokemon_objects(cls, pokemon_name: list):
-        request = pokedex.setup_request_commandline()
-        async_move = \
-            asyncio.run(
-                RequestApi.process_multiple_ability_requests(pokemon_name))
-        string_convert = json.dumps(async_move)
-        pokemon_convert_json = json.loads(string_convert)
-
-        print("\n")
-        for pokekmon in pokemon_convert_json:
-            ability_name = ability["name"]
-            ability_id = ability["id"]
-            ability_gen = ability["generation"]["name"]
-            ability_long_effect = ability["effect_entries"][0]["effect"]
-            ability_short_effect = ability["effect_entries"][0]["short_effect"]
-            ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
-                                          ability["pokemon"]])
-
-            final_ability_object = Ability(ability_name, ability_id,
-                                           ability_gen,
-                                           ability_long_effect,
-                                           ability_short_effect,
-                                           ability_pokemon)
-            if request[0].lower() == "ability" and request[3] is None:
-                print(final_ability_object)
-            if request[0].lower() == "ability" and request[3] is not None:
-                with open(request[3], mode="a") \
-                        as output_file:
-                    output_file.write(str(final_ability_object))
-
-    @classmethod
-    def create_multiple_ability_objects(cls, ability_name_: list):
-        request = pokedex.setup_request_commandline()
-        async_move = \
-            asyncio.run(RequestApi.process_multiple_ability_requests(ability_name_))
-        string_convert = json.dumps(async_move)
-        ability_convert_json = json.loads(string_convert)
-
-        print("\n")
-        for ability in ability_convert_json:
-            ability_name = ability["name"]
-            ability_id = ability["id"]
-            ability_gen = ability["generation"]["name"]
-            ability_long_effect = ability["effect_entries"][0]["effect"]
-            ability_short_effect = ability["effect_entries"][0]["short_effect"]
-            ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
-                                          ability["pokemon"]])
-
-            final_ability_object = Ability(ability_name, ability_id,
-                                           ability_gen,
-                                           ability_long_effect,
-                                           ability_short_effect,
-                                           ability_pokemon)
-            if request[0].lower() == "ability" and request[3] is None:
-                print(final_ability_object)
-            if request[0].lower() == "ability" and request[3] is not None:
-                with open(request[3], mode="a") \
-                        as output_file:
-                    output_file.write(str(final_ability_object))
 
     @classmethod
     def create_multiple_move_objects(cls, move_name_: list):

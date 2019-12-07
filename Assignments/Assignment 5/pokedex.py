@@ -3,7 +3,6 @@ Main driver class to run the program from the terminal.
 """
 import argparse
 import moves
-import enum
 
 
 
@@ -79,9 +78,9 @@ class HandleRequest:
                 for stats in generate_pokemon[0].stats:
                     output_file.write(str(stats))
                 output_file.write("\nMoves and Level Learnt:")
-                for move_, level, url in generate_pokemon[0].moves:
+                for move_, level in generate_pokemon[0].moves:
                     output_file.write("\n-" + str(move_) + " learnt at "
-                                      + str(level) + ", url " + str(url))
+                                      + str(level))
 
         elif request[0].lower() == "ability" and request[3] is None:
             print("USING ABILITY METHOD")
@@ -119,22 +118,28 @@ class HandleRequest:
         elif request[0].lower() == "ability" and request[3] is None:
             with open(text_file, mode="r") as move_file:
                 file_text = move_file.readlines()
-                # print(file_text)
                 ability_list = [move.strip() for move in file_text]
-            generate_ability = \
-                moves.Moves.create_multiple_ability_objects(ability_list)
+                moves.Ability.create_multiple_ability_objects(ability_list)
+
         elif request[0].lower() == "ability" and request[3] is not None:
             print("Writing input_file to output file data")
             with open(text_file, mode="r") as move_file:
                 file_text = move_file.readlines()
                 ability_list = [move.strip() for move in file_text]
-            generate_ability = \
-                moves.Moves.create_multiple_ability_objects(ability_list)
+                moves.Ability.create_multiple_ability_objects(ability_list)
 
+        elif request[0].lower() == "pokemon" and request[3] is None:
+            with open(text_file, mode="r") as move_file:
+                file_text = move_file.readlines()
+                ability_list = [move.strip() for move in file_text]
+                moves.Pokemon.create_multiple_pokemon_objects(ability_list)
 
-                # for item in generate_moves:
-                #     output_file.write("\n" + str(item))
-
+        elif request[0].lower() == "pokemon" and request[3] is not None:
+            print("Writing input_file to output file data")
+            with open(text_file, mode="r") as move_file:
+                file_text = move_file.readlines()
+                ability_list = [move.strip() for move in file_text]
+                moves.Pokemon.create_multiple_pokemon_objects(ability_list)
 
 
 
