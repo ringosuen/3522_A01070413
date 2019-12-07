@@ -1,4 +1,4 @@
-#Pokedex Tool
+# Pokedex Tool
 
 Welcome to my Pokedex! It grabs info from
 
@@ -6,15 +6,15 @@ Please use the command line to query your request.
 
 The Pokedex will be able to search different Pokemon, Moves and Abilities. 
 
-Possible Modes that the Pokedex can Handle:
+## Possible Modes that the Pokedex can Handle:
 
 single string (output to console) 
 
-eg. python3 pokedex.py "pokemon" "ditto"
+- eg. python3 pokedex.py "pokemon" "ditto"
 
 single string + write to external text file 
 
-eg. python3 pokedex.py "pokemon" "ditto" -o”output.txt"
+- eg. python3 pokedex.py "pokemon" "ditto" -o”output.txt"
 
 single string + expansion 
 
