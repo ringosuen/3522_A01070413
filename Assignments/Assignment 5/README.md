@@ -1,10 +1,10 @@
 # Pokedex Tool
 
-Welcome to my Pokedex! It grabs info from https://pokeapi.co/
+Welcome to my Pokedex! It provides info requested from https://pokeapi.co/.
 
 Please use the command line to query your request. 
 
-The Pokedex will be able to search different Pokemon, Moves and Abilities. 
+The Pokedex will be able to search and return data about different Pokemon, Moves and Abilities. 
 
 When using textfile mode, please use the input files provided: pokemon_input.txt, moves_file.txt, ability_input.txt
 Alternatively, you can create your own input files. 
