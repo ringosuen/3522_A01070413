@@ -8,13 +8,13 @@ The Pokedex will be able to search different Pokemon, Moves and Abilities.
 
 ## Possible Modes that the Pokedex can Handle:
 
-single string (output to console) 
+* single string (output to console) 
 
-- eg. python3 pokedex.py "pokemon" "ditto"
+ - eg. python3 pokedex.py "pokemon" "ditto"
 
-single string + write to external text file 
+* single string + write to external text file 
 
-- eg. python3 pokedex.py "pokemon" "ditto" -o”output.txt"
+ - eg. python3 pokedex.py "pokemon" "ditto" -o”output.txt"
 
 single string + expansion 
 
