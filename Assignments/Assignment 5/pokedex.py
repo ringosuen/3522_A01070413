@@ -5,12 +5,10 @@ import argparse
 import moves
 
 
-
-
 def setup_request_commandline():
     """
     Setup request commandline
-    :return: type of request, second_position
+    :return: type of request, info, expanded, output
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("request", help="enter either pokemon, ability, "
@@ -36,13 +34,22 @@ def setup_request_commandline():
 
 
 class HandleRequest:
+    """
+    Chooses whether request input was a string or a text file.
+    """
 
     @classmethod
     def process_single_string(cls):
+        """
+        Responsible for processing a single string entry. Chooses
+        either Move, Pokemon or Ability request. Then checks for whether
+        it needs to be expanded and where it should be outputted.
+        :return: Response from the request.
+        """
         request = setup_request_commandline()
 
         if request[0].lower() == "move" and request[3] is None:
-            print("USING CREATE MOVE METHOD")
+            print("Reading move input, outputting to console")
             generate_move = moves.Moves.create_move_object(request[1])
             print(generate_move)
 
@@ -55,7 +62,7 @@ class HandleRequest:
             return generate_move
 
         elif request[0] == "pokemon" and request[3] is None:
-            print("USING CREATE POKEMON METHOD")
+            print("Reading Pokemon input, outputting to console")
             generate_pokemon = moves.Pokemon.create_pokemon_object(request[1])
             print(generate_pokemon[0])
             print(f"{generate_pokemon[0].name.title()} Stats:")
@@ -65,8 +72,10 @@ class HandleRequest:
                   f"Moves and Level Learnt:")
             for move_, level in generate_pokemon[0].moves:
                 print(f"{move_} learnt at {level}")
-            # print(generate_pokemon[0].stats)
-            return generate_pokemon
+            if request[2] is True:
+                moves.Pokemon.create_expanded_stats(request[1])
+                moves.Pokemon.create_expanded_ability(request[1])
+                moves.Pokemon.create_expanded_moves(request[1])
 
         elif request[0].lower() == "pokemon" and request[3] is not None:
             generate_pokemon = moves.Pokemon.create_pokemon_object(request[1])
@@ -81,9 +90,13 @@ class HandleRequest:
                 for move_, level in generate_pokemon[0].moves:
                     output_file.write("\n-" + str(move_) + " learnt at "
                                       + str(level))
+            if request[2] is True:
+                moves.Pokemon.create_expanded_stats(request[1])
+                moves.Pokemon.create_expanded_ability(request[1])
+                moves.Pokemon.create_expanded_moves(request[1])
 
         elif request[0].lower() == "ability" and request[3] is None:
-            print("USING ABILITY METHOD")
+            print("Reading input, outputting to console")
             generate_ability = moves.Ability.create_ability_object(request[1])
             print(generate_ability)
             return generate_ability
@@ -98,8 +111,12 @@ class HandleRequest:
 
     @classmethod
     def process_text_file(cls, text_file):
+        """
+        Processes all text file inputs. Checks to see if it should output
+        to the console or to an external file.
+        :param text_file:
+        """
         request = setup_request_commandline()
-        print("Checking mode type")
         if request[0].lower() == "move" and request[3] is None:
             with open(text_file, mode="r") as move_file:
                 file_text = move_file.readlines()
@@ -142,16 +159,25 @@ class HandleRequest:
                 moves.Pokemon.create_multiple_pokemon_objects(ability_list)
 
 
-
 def main():
+    """
+    The main will do a simple check of whether the argument given is a
+    single string or a text file input.
+    """
     pokedex = HandleRequest()
-    # pokedex.process_single_string()
-
     request = setup_request_commandline()
+
+    if request[1].endswith(".txt"):
+        print("Mode: Using text file mode")
+        pokedex.process_text_file(request[1])
+    elif request[1].endswith(".txt") is False:
+        print("Mode: Single string mode, not text file")
+        pokedex.process_single_string()
+
     # print(request[0])
     # print(request[1])
     # print(request[2])
-    print(request[3])
+    # print(request[3])
     # if request[3] is None and request[2] is True:
     #     print("Single String + Expansion")
     # elif request[3] is None:
@@ -161,12 +187,6 @@ def main():
     #     print("Text File + expansion")
     # else:
     #     pokedex.process_text_file()
-    if request[1].endswith(".txt"):
-        print("Using text file method")
-        pokedex.process_text_file(request[1])
-    elif request[1].endswith(""):
-        print("single string, no expansion, not text file")
-        pokedex.process_single_string()
 
 
 if __name__ == '__main__':
