@@ -10,14 +10,15 @@ When using textfile mode, please use the input files provided: pokemon_input.txt
 Alternatively, you can create your own input files. 
 
 ## Possible Modes that the Pokedex can Handle:
+### Modes: pokemon, ability, move
 
 1. single string (output to console) 
 
-  - eg. python3 pokedex.py "pokemon" "ditto"
+  - eg. python3 pokedex.py "move" "flamethrower"
 
 2. single string + write to external text file 
   
-  - eg. python3 pokedex.py "pokemon" "ditto" -o”output.txt"
+  - eg. python3 pokedex.py "ability" "drizzle" -o”output.txt"
 
 3. single string + expansion 
 
@@ -33,4 +34,4 @@ Alternatively, you can create your own input files.
 
 6. read from text file + output to external text file  
 
-- eg. python3 pokedex.py "pokemon" “moves_file.txt” -e -o”output.txt"
+- eg. python3 pokedex.py "moves" “moves_file.txt” -e -o”output.txt"
