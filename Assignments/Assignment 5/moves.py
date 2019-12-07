@@ -58,31 +58,20 @@ class Pokemon:
         pokemon_weight = pokemon["weight"]
         stat_name = [item["stat"]["name"] for item in pokemon["stats"]]
         base_stat = [item["base_stat"] for item in pokemon["stats"]]
-        # stat_url = [item["stat"]["url"] for item in pokemon["stats"]]
 
         pokemon_stats = list(zip(stat_name, base_stat))
         pokemon_type = [item["type"]["name"] for item in pokemon["types"]]
         pokemon_abilities = [item["ability"]["name"] for item in
                              pokemon["abilities"]]
-        # pokemon_moves = [item["move"]["name"] for item in pokemon["moves"]]
-        # for item1 in pokemon["moves"]:
-        #     level = item1["version_group_details"][0]["level_learned_at"]
-        #     move = item1["move"]["name"]
-        #     p1 = PokemonMoves(move, level)
-        #     print(f"{move}, learnt at {level}")
 
         move = [item1["move"]["name"] for item1 in pokemon["moves"]]
         level = [item1["version_group_details"][0]["level_learned_at"] for
                  item1 in pokemon["moves"]]
-        move_url = [item1["move"]["url"] for item1 in pokemon["moves"]]
-        # print(move, level)
         moves = list(zip(move, level))
-        # for a,b in moves:
-        #     print(a,b)
-        # pokemon_moves = PokemonMoves(move, level)
 
+        stat_url = [item["stat"]["url"] for item in pokemon["stats"]]
+        move_url = [item1["move"]["url"] for item1 in pokemon["moves"]]
         ability_url = [item["ability"]["url"] for item in pokemon["abilities"]]
-        print(ability_url)
 
         final_ability_object = Pokemon(pokemon_name,
                                        pokemon_id,
@@ -188,6 +177,37 @@ class Moves:
                              move_short_effect)
 
         return final_object
+
+    @classmethod
+    def create_multiple_pokemon_objects(cls, pokemon_name: list):
+        request = pokedex.setup_request_commandline()
+        async_move = \
+            asyncio.run(
+                RequestApi.process_multiple_ability_requests(pokemon_name))
+        string_convert = json.dumps(async_move)
+        pokemon_convert_json = json.loads(string_convert)
+
+        print("\n")
+        for pokekmon in pokemon_convert_json:
+            ability_name = ability["name"]
+            ability_id = ability["id"]
+            ability_gen = ability["generation"]["name"]
+            ability_long_effect = ability["effect_entries"][0]["effect"]
+            ability_short_effect = ability["effect_entries"][0]["short_effect"]
+            ability_pokemon = "\n-".join([item["pokemon"]["name"] for item in
+                                          ability["pokemon"]])
+
+            final_ability_object = Ability(ability_name, ability_id,
+                                           ability_gen,
+                                           ability_long_effect,
+                                           ability_short_effect,
+                                           ability_pokemon)
+            if request[0].lower() == "ability" and request[3] is None:
+                print(final_ability_object)
+            if request[0].lower() == "ability" and request[3] is not None:
+                with open(request[3], mode="a") \
+                        as output_file:
+                    output_file.write(str(final_ability_object))
 
     @classmethod
     def create_multiple_ability_objects(cls, ability_name_: list):
